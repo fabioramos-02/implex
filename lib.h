@@ -16,8 +16,10 @@ float time_val(struct timeval *start, struct timeval *end);
 
 // Fabio implementar
 void insertionSort(int *vetor, int tamanho);
-// void heapSort(int *vetor, int tamanho);
-// void mergeSort(int *vetor, int inicio, int fim);
+void heapSort(int *vetor, int tamanho);
+void heapify(int *vetor, int tamanho, int i);
+void mergeSort(int *vetor, int left, int right);
+void merge(int *vetor, int inicio, int meio, int fim);
 
 // Função para criar vetores aleatórios
 void criarVetorAleatorio(int *vetor, int tamanho);
