@@ -2,7 +2,12 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include <chrono>
+#include <sys/time.h>
 
+// Função para calcular o tempo decorrido
+float time_val(struct timeval *start, struct timeval *end) {
+    return (end->tv_sec - start->tv_sec) + 1e-6 * (end->tv_usec - start->tv_usec);
+}
 
 void criarVetorAleatorio(int *vetor, int tamanho)
 {
@@ -47,16 +52,14 @@ void vetorAleatorio(int inc, int fim, int stp, int rpt){
             int *vetor = new int[n]; // Aloca o vetor com tamanho n
             criarVetorAleatorio(vetor, n); // Função que gera os vetores aleatórios
 
-            // // Medir o tempo do BubbleSort
-            auto start = std::chrono::high_resolution_clock::now();
-            // bubbleSort(vetor, n);
-            // totalBubble += std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count();
-
-            // Medir o tempo do InsertionSort
-            start = std::chrono::high_resolution_clock::now();
+             // Medir o tempo do InsertionSort
+            struct timeval start, end;
+            gettimeofday(&start, NULL);
             insertionSort(vetor, n);
-            totalInsertion += std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count();
+            gettimeofday(&end, NULL);
+            totalInsertion += time_val(&start, &end);
 
+         
             // // Medir o tempo do MergeSort
             // start = std::chrono::high_resolution_clock::now();
             // mergeSort(vetor, 0, n - 1);
