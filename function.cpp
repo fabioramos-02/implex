@@ -192,19 +192,81 @@ void vetorAleatorio(int inc, int fim, int stp, int rpt)
             gettimeofday(&end, NULL);
             totalHeap += time_val(&start, &end);
 
-            // start = std::chrono::high_resolution_clock::now();
-            // heapSort(vetor, n);
-            // totalHeap += std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count();
+           
 
-            // // Medir o tempo do QuickSort
-            // start = std::chrono::high_resolution_clock::now();
-            // quickSort(vetor, 0, n - 1);
-            // totalQuick += std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count();
+            delete[] vetor; // Libera a memória alocada para o vetor
+        }
 
-            // // Medir o tempo do CountingSort
-            // start = std::chrono::high_resolution_clock::now();
-            // countingSort(vetor, n);
-            // totalCounting += std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count();
+        // Imprimir os resultados
+        printf("%d\t%f\t%f\t%f\t%f\t%f\t%f\n",
+               n,
+               totalBubble / rpt,
+               totalInsertion / rpt,
+               totalMerge / rpt,
+               totalHeap / rpt,
+               totalQuick / rpt,
+               totalCounting / rpt);
+    }
+}
+
+/*Vetor reverso: cada conjunto de entrada A deve conter números inteiros não negativos escolhidos (pseudo)aleatoriamente e arranjados em ordem decrescente. Um tal conjunto de
+números A deve ter n números. Os valores de n variam, para cada conjunto construído, de
+acordo com os parâmetros inc (valor inicial), fim (valor final) e stp (intervalo entre dois
+tamanhos), assim como descrito no caso anterior (vetor aleatório).
+Para cada caso de teste, você deve executar os seis algoritmos mencionados na seção 1 para
+ordenar esse conjunto A de n números inteiros. Neste caso, não é necessário repetir a execução dos algoritmos, isto é, cada caso de teste é executado uma única vez, obtendo então
+os tempos medidos.
+A saída deste experimento consiste de uma primeira linha contendo o rótulo [[REVERSE]],
+especificando o conjunto de dados sendo usado, uma segunda linha contendo os rótulos da
+quantidade de elementos n e a identificação de cada um dos algoritmos. Cada linha a seguir
+contém o valor da quantidade de elementos n de um caso de teste e os tempos gastos da
+execução de cada algoritmo.
+*/
+void vetorReverso(int inc, int fim, int stp, int rpt)
+{
+    printf("\n");
+    // Imprimir rótulo [[REVERSE]]
+    printf("[[REVERSE]]\n");
+
+    // Imprimir cabeçalhos
+    printf("n\tBubbleSort\tInsertionSort\tMergeSort\tHeapSort\tQuickSort\tCountingSort\n");
+
+    for (int n = inc; n <= fim; n += stp)
+    {
+        double totalBubble = 0, totalInsertion = 0, totalMerge = 0;
+        double totalHeap = 0, totalQuick = 0, totalCounting = 0;
+
+        for (int i = 0; i < rpt; i++)
+        {
+            int *vetor = new int[n];       // Aloca o vetor com tamanho n
+            criarVetorAleatorio(vetor, n); // Função que gera os vetores aleatórios
+
+            // Medir o tempo do InsertionSort
+            struct timeval start, end;
+            gettimeofday(&start, NULL);
+            insertionSort(vetor, n);
+            gettimeofday(&end, NULL);
+            totalInsertion += time_val(&start, &end);
+
+            // // Medir o tempo do BubbleSort
+            gettimeofday(&start, NULL);
+            bubbleSort(vetor, n);
+            gettimeofday(&end, NULL);
+            totalBubble += time_val(&start, &end);
+
+            // // Medir o tempo do MergeSort
+            gettimeofday(&start, NULL);
+            mergeSort(vetor, 0, n - 1);
+            gettimeofday(&end, NULL);
+            totalMerge += time_val(&start, &end);
+
+            // // Medir o tempo do HeapSort
+            gettimeofday(&start, NULL);
+            heapSort(vetor, n);
+            gettimeofday(&end, NULL);
+            totalHeap += time_val(&start, &end);
+
+           
 
             delete[] vetor; // Libera a memória alocada para o vetor
         }

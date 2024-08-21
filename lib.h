@@ -26,3 +26,4 @@ void criarVetorAleatorio(int *vetor, int tamanho);
 
 // impementar os 4 conjuntos de dados
 void vetorAleatorio(int inc, int fim, int stp, int rpt);
+void vetorReverso(int inc, int fim, int stp, int rpt);
