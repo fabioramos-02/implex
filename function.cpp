@@ -18,7 +18,8 @@ void criarVetorAleatorio(int *vetor, int tamanho)
     }
 }
 
-void insertionSortCrescente(int *vetor, int tamanho)
+// Função para ordenar um vetor de inteiros em ordem decrescente ou decrescente
+void insertionSort(int *vetor, int tamanho, bool crescente)
 {
     int i, j, chave;
     for (i = 1; i < tamanho; i++)
@@ -26,79 +27,101 @@ void insertionSortCrescente(int *vetor, int tamanho)
         chave = vetor[i];
         j = i - 1;
 
-        while (j >= 0 && vetor[j] > chave)
+        if (crescente)
         {
-            vetor[j + 1] = vetor[j];
-            j = j - 1;
+            while (j >= 0 && vetor[j] > chave)
+            {
+                vetor[j + 1] = vetor[j];
+                j = j - 1;
+            }
         }
+        else
+        {
+            while (j >= 0 && vetor[j] < chave)
+            {
+                vetor[j + 1] = vetor[j];
+                j = j - 1;
+            }
+        }
+
         vetor[j + 1] = chave;
     }
 }
 
-void insertionSortDecrescente(int *vetor, int tamanho)
-{
-    int i, j, chave;
-    for (i = 1; i < tamanho; i++)
-    {
-        chave = vetor[i];
-        j = i - 1;
 
-        while (j >= 0 && vetor[j] < chave)
-        {
-            vetor[j + 1] = vetor[j];
-            j = j - 1;
-        }
-        vetor[j + 1] = chave;
-    }
-}
-
-void bubbleSort(int *vetor, int tamanho)
+void bubbleSort(int *vetor, int tamanho, bool crescente)
 {
     int i, j, aux;
     for (i = 0; i < tamanho - 1; i++)
     {
         for (j = 0; j < tamanho - i - 1; j++)
         {
-            if (vetor[j] > vetor[j + 1])
+            if (crescente)
             {
-                aux = vetor[j];
-                vetor[j] = vetor[j + 1];
-                vetor[j + 1] = aux;
+                if (vetor[j] > vetor[j + 1])
+                {
+                    aux = vetor[j];
+                    vetor[j] = vetor[j + 1];
+                    vetor[j + 1] = aux;
+                }
+            }
+            else
+            {
+                if (vetor[j] < vetor[j + 1])
+                {
+                    aux = vetor[j];
+                    vetor[j] = vetor[j + 1];
+                    vetor[j + 1] = aux;
+                }
             }
         }
     }
 }
 
-void merge(int *vetor, int left, int mid, int right)
+
+void merge(int *vetor, int left, int mid, int right, bool crescente)
 {
+    int i, j, k;
     int n1 = mid - left + 1;
     int n2 = right - mid;
 
-    // Create temp vectors
-    int *L, *R;
-    L = new int[n1];
-    R = new int[n2];
+    int L[n1], R[n2];
 
-    // Copy data to temp vectors L[] and R[]
-    for (int i = 0; i < n1; i++)
+    for (i = 0; i < n1; i++)
         L[i] = vetor[left + i];
-    for (int j = 0; j < n2; j++)
+    for (j = 0; j < n2; j++)
         R[j] = vetor[mid + 1 + j];
 
-    int i = 0, j = 0;
-    int k = left;
-
+    i = 0;
+    j = 0;
+    k = left;
     while (i < n1 && j < n2)
     {
-        if (L[i] <= R[j])
+        if (crescente)
         {
-            vetor[k] = L[i];
-            i++;
+            if (L[i] <= R[j])
+            {
+                vetor[k] = L[i];
+                i++;
+            }
+            else
+            {
+                vetor[k] = R[j];
+                j++;
+            }
         }
         else
         {
-            vetor[k] = R[j];
-            j++;
+            if (L[i] >= R[j])
+            {
+                vetor[k] = L[i];
+                i++;
+            }
+            else
+            {
+                vetor[k] = R[j];
+                j++;
+            }
         }
         k++;
     }
@@ -118,15 +141,17 @@ void merge(int *vetor, int left, int mid, int right)
     }
 }
 
-void mergeSort(int *vetor, int left, int right)
+void mergeSort(int *vetor, int left, int right, bool crescente)
 {
-    if (left >= right)
-        return;
+    if (left < right)
+    {
+        int mid = left + (right - left) / 2;
 
-    int mid = left + (right - left) / 2;
-    mergeSort(vetor, left, mid);
-    mergeSort(vetor, mid + 1, right);
-    merge(vetor, left, mid, right);
+        mergeSort(vetor, left, mid, crescente);
+        mergeSort(vetor, mid + 1, right, crescente);
+
+        merge(vetor, left, mid, right, crescente);
+    }
 }
 
 void heapify(int *vetor, int tamanho, int i)
@@ -184,22 +209,22 @@ void vetorAleatorio(int inc, int fim, int stp, int rpt)
             int *vetor = new int[n];       // Aloca o vetor com tamanho n
             criarVetorAleatorio(vetor, n); // Função que gera os vetores aleatórios
 
-            // Medir o tempo do insertionSortCrescente
+            // Medir o tempo do insertionSort
             struct timeval start, end;
             gettimeofday(&start, NULL);
-            insertionSortCrescente(vetor, n);
+            insertionSort(vetor, n, true);
             gettimeofday(&end, NULL);
             totalInsertion += time_val(&start, &end);
 
             // // Medir o tempo do BubbleSort
             gettimeofday(&start, NULL);
-            bubbleSort(vetor, n);
+            bubbleSort(vetor, n, true);
             gettimeofday(&end, NULL);
             totalBubble += time_val(&start, &end);
 
             // // Medir o tempo do MergeSort
             gettimeofday(&start, NULL);
-            mergeSort(vetor, 0, n - 1);
+            mergeSort(vetor, 0, n - 1, true);
             gettimeofday(&end, NULL);
             totalMerge += time_val(&start, &end);
 
@@ -256,22 +281,22 @@ void vetorReverso(int inc, int fim, int stp, int rpt)
             int *vetor = new int[n];       // Aloca o vetor com tamanho n
             criarVetorAleatorio(vetor, n); // Função que gera os vetores aleatórios
 
-            // Medir o tempo do insertionSortCrescente
+            // Medir o tempo do insertionSort
             struct timeval start, end;
             gettimeofday(&start, NULL);
-            insertionSortDecrescente(vetor, n);
+            insertionSort(vetor, n, false);
             gettimeofday(&end, NULL);
             totalInsertion += time_val(&start, &end);
 
             // // Medir o tempo do BubbleSort
             gettimeofday(&start, NULL);
-            bubbleSort(vetor, n);
+            bubbleSort(vetor, n, false);
             gettimeofday(&end, NULL);
             totalBubble += time_val(&start, &end);
 
             // // Medir o tempo do MergeSort
             gettimeofday(&start, NULL);
-            mergeSort(vetor, 0, n - 1);
+            mergeSort(vetor, 0, n - 1, false);
             gettimeofday(&end, NULL);
             totalMerge += time_val(&start, &end);
 

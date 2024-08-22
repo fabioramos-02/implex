@@ -10,18 +10,17 @@ float time_val(struct timeval *start, struct timeval *end);
 // implementacao de funções de ordenação
 
 // Gustavo implementar
-// void bubbleSort(int *vetor, int tamanho);
+void bubbleSort(int *vetor, int tamanho, bool crescente);
 // void countingSort(int *vetor, int tamanho);
 // void quickSort(int *vetor, int inicio, int fim);
 
 // Fabio implementar
-void insertionSortCrescente(int *vetor, int tamanho);
-void insertionSortDecrescente(int *vetor, int tamanho);
+void insertionSort(int *vetor, int tamanho, bool crescente);
 
 void heapSort(int *vetor, int tamanho);
 void heapify(int *vetor, int tamanho, int i);
-void mergeSort(int *vetor, int left, int right);
-void merge(int *vetor, int inicio, int meio, int fim);
+void mergeSort(int *vetor, int left, int right, bool crescente);
+void merge(int *vetor, int left, int mid, int right, bool crescente);
 
 // Função para criar vetores aleatórios
 void criarVetorAleatorio(int *vetor, int tamanho);
