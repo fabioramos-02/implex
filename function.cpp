@@ -167,17 +167,27 @@ void mergeSort(int *vetor, int left, int right, bool crescente)
 }
 
 
-void heapify(int *vetor, int tamanho, int i)
-{
+void heapify(int *vetor, int tamanho, int i, bool crescente){
     int maior = i;
-    int esquerda = 2 * i + 1;
-    int direita = 2 * i + 2;
+    int esq = 2 * i + 1;
+    int dir = 2 * i + 2;
 
-    if (esquerda < tamanho && vetor[esquerda] > vetor[maior])
-        maior = esquerda;
+    if (crescente)
+    {
+        if (esq < tamanho && vetor[esq] > vetor[maior])
+            maior = esq;
 
-    if (direita < tamanho && vetor[direita] > vetor[maior])
-        maior = direita;
+        if (dir < tamanho && vetor[dir] > vetor[maior])
+            maior = dir;
+    }
+    else
+    {
+        if (esq < tamanho && vetor[esq] < vetor[maior])
+            maior = esq;
+
+        if (dir < tamanho && vetor[dir] < vetor[maior])
+            maior = dir;
+    }
 
     if (maior != i)
     {
@@ -185,14 +195,14 @@ void heapify(int *vetor, int tamanho, int i)
         vetor[i] = vetor[maior];
         vetor[maior] = temp;
 
-        heapify(vetor, tamanho, maior);
+        heapify(vetor, tamanho, maior, crescente);
     }
 }
 
-void heapSort(int *vetor, int tamanho)
+void heapSort(int *vetor, int tamanho, bool crescente)
 {
     for (int i = tamanho / 2 - 1; i >= 0; i--)
-        heapify(vetor, tamanho, i);
+        heapify(vetor, tamanho, i, crescente);
 
     for (int i = tamanho - 1; i > 0; i--)
     {
@@ -200,9 +210,10 @@ void heapSort(int *vetor, int tamanho)
         vetor[0] = vetor[i];
         vetor[i] = temp;
 
-        heapify(vetor, i, 0);
+        heapify(vetor, i, 0, crescente);
     }
 }
+
 
 void vetorAleatorio(int inc, int fim, int stp, int rpt)
 {
@@ -243,7 +254,7 @@ void vetorAleatorio(int inc, int fim, int stp, int rpt)
 
             // // Medir o tempo do HeapSort
             gettimeofday(&start, NULL);
-            heapSort(vetor, n);
+            heapSort(vetor, n, true);
             gettimeofday(&end, NULL);
             totalHeap += time_val(&start, &end);
 
@@ -315,7 +326,69 @@ void vetorReverso(int inc, int fim, int stp, int rpt)
 
             // // Medir o tempo do HeapSort
             gettimeofday(&start, NULL);
-            heapSort(vetor, n);
+            heapSort(vetor, n, false);
+            gettimeofday(&end, NULL);
+            totalHeap += time_val(&start, &end);
+
+            delete[] vetor; // Libera a memória alocada para o vetor
+        }
+
+        // Imprimir os resultados
+        printf("%d\t%f\t%f\t%f\t%f\t%f\t%f\n",
+               n,
+               totalBubble / rpt,
+               totalInsertion / rpt,
+               totalMerge / rpt,
+               totalHeap / rpt,
+               totalQuick / rpt,
+               totalCounting / rpt);
+    }
+}
+
+void vetorOrdenado(int inc, int fim, int stp, int rpt)
+{
+    // Imprimir rótulo [[SORTED]]
+    printf("[[SORTED]]\n");
+
+    // Imprimir cabeçalhos
+    printf("n\tBubble\t\tInsertion\tMerge\t\tHeap\t\tQuick\t\tCounting\n");
+
+    for (int n = inc; n <= fim; n += stp)
+    {
+        double totalBubble = 0, totalInsertion = 0, totalMerge = 0;
+        double totalHeap = 0, totalQuick = 0, totalCounting = 0;
+
+        for (int i = 0; i < rpt; i++)
+        {
+            int *vetor = new int[n];       // Aloca o vetor com tamanho n
+            criarVetorAleatorio(vetor, n); // Função que gera os vetores aleatórios
+
+            // Medir o tempo do insertionSort
+            struct timeval start, end;
+            insertionSort(vetor, n, true);
+            gettimeofday(&start, NULL);
+            insertionSort(vetor, n, true);
+            gettimeofday(&end, NULL);
+            totalInsertion += time_val(&start, &end);
+
+            // // Medir o tempo do BubbleSort
+            bubbleSort(vetor, n, true);
+            gettimeofday(&start, NULL);
+            bubbleSort(vetor, n, true);
+            gettimeofday(&end, NULL);
+            totalBubble += time_val(&start, &end);
+
+            // // Medir o tempo do MergeSort
+            mergeSort(vetor, 0, n - 1, true);
+            gettimeofday(&start, NULL);
+            mergeSort(vetor, 0, n - 1, true);
+            gettimeofday(&end, NULL);
+            totalMerge += time_val(&start, &end);
+
+            // // Medir o tempo do HeapSort
+            heapSort(vetor, n, true);
+            gettimeofday(&start, NULL);
+            heapSort(vetor, n, true);
             gettimeofday(&end, NULL);
             totalHeap += time_val(&start, &end);
 

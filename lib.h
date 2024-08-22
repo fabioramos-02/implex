@@ -17,8 +17,9 @@ void bubbleSort(int *vetor, int tamanho, bool crescente);
 // Fabio implementar
 void insertionSort(int *vetor, int tamanho, bool crescente);
 
-void heapSort(int *vetor, int tamanho);
-void heapify(int *vetor, int tamanho, int i);
+void heapSort(int *vetor, int tamanho, bool crescente);
+void heapify(int *vetor, int tamanho, int i, bool crescente);
+
 void mergeSort(int *vetor, int left, int right, bool crescente);
 void merge(int *vetor, int left, int mid, int right, bool crescente);
 
@@ -28,3 +29,4 @@ void criarVetorAleatorio(int *vetor, int tamanho);
 // impementar os 4 conjuntos de dados
 void vetorAleatorio(int inc, int fim, int stp, int rpt);
 void vetorReverso(int inc, int fim, int stp, int rpt);
+void vetorOrdenado(int inc, int fim, int stp, int rpt);

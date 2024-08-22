@@ -13,5 +13,6 @@ int main()
     
     vetorAleatorio(inc, fim, stp, rpt);
     vetorReverso(inc, fim, stp, rpt);
+    vetorOrdenado(inc, fim, stp, rpt);
     return 0;
 }
