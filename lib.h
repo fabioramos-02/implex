@@ -15,7 +15,9 @@ float time_val(struct timeval *start, struct timeval *end);
 // void quickSort(int *vetor, int inicio, int fim);
 
 // Fabio implementar
-void insertionSort(int *vetor, int tamanho);
+void insertionSortCrescente(int *vetor, int tamanho);
+void insertionSortDecrescente(int *vetor, int tamanho);
+
 void heapSort(int *vetor, int tamanho);
 void heapify(int *vetor, int tamanho, int i);
 void mergeSort(int *vetor, int left, int right);

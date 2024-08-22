@@ -18,7 +18,7 @@ void criarVetorAleatorio(int *vetor, int tamanho)
     }
 }
 
-void insertionSort(int *vetor, int tamanho)
+void insertionSortCrescente(int *vetor, int tamanho)
 {
     int i, j, chave;
     for (i = 1; i < tamanho; i++)
@@ -27,6 +27,23 @@ void insertionSort(int *vetor, int tamanho)
         j = i - 1;
 
         while (j >= 0 && vetor[j] > chave)
+        {
+            vetor[j + 1] = vetor[j];
+            j = j - 1;
+        }
+        vetor[j + 1] = chave;
+    }
+}
+
+void insertionSortDecrescente(int *vetor, int tamanho)
+{
+    int i, j, chave;
+    for (i = 1; i < tamanho; i++)
+    {
+        chave = vetor[i];
+        j = i - 1;
+
+        while (j >= 0 && vetor[j] < chave)
         {
             vetor[j + 1] = vetor[j];
             j = j - 1;
@@ -155,7 +172,7 @@ void vetorAleatorio(int inc, int fim, int stp, int rpt)
     printf("[[RANDOM]]\n");
 
     // Imprimir cabeçalhos
-    printf("n\tBubbleSort\tInsertionSort\tMergeSort\tHeapSort\tQuickSort\tCountingSort\n");
+    printf("n\tBubble\t\tInsertion\tMerge\t\tHeap\t\tQuick\t\tCounting\n");
 
     for (int n = inc; n <= fim; n += stp)
     {
@@ -167,10 +184,10 @@ void vetorAleatorio(int inc, int fim, int stp, int rpt)
             int *vetor = new int[n];       // Aloca o vetor com tamanho n
             criarVetorAleatorio(vetor, n); // Função que gera os vetores aleatórios
 
-            // Medir o tempo do InsertionSort
+            // Medir o tempo do insertionSortCrescente
             struct timeval start, end;
             gettimeofday(&start, NULL);
-            insertionSort(vetor, n);
+            insertionSortCrescente(vetor, n);
             gettimeofday(&end, NULL);
             totalInsertion += time_val(&start, &end);
 
@@ -191,8 +208,6 @@ void vetorAleatorio(int inc, int fim, int stp, int rpt)
             heapSort(vetor, n);
             gettimeofday(&end, NULL);
             totalHeap += time_val(&start, &end);
-
-           
 
             delete[] vetor; // Libera a memória alocada para o vetor
         }
@@ -229,7 +244,7 @@ void vetorReverso(int inc, int fim, int stp, int rpt)
     printf("[[REVERSE]]\n");
 
     // Imprimir cabeçalhos
-    printf("n\tBubbleSort\tInsertionSort\tMergeSort\tHeapSort\tQuickSort\tCountingSort\n");
+    printf("n\tBubble\t\tInsertion\tMerge\t\tHeap\t\tQuick\t\tCounting\n");
 
     for (int n = inc; n <= fim; n += stp)
     {
@@ -241,10 +256,10 @@ void vetorReverso(int inc, int fim, int stp, int rpt)
             int *vetor = new int[n];       // Aloca o vetor com tamanho n
             criarVetorAleatorio(vetor, n); // Função que gera os vetores aleatórios
 
-            // Medir o tempo do InsertionSort
+            // Medir o tempo do insertionSortCrescente
             struct timeval start, end;
             gettimeofday(&start, NULL);
-            insertionSort(vetor, n);
+            insertionSortDecrescente(vetor, n);
             gettimeofday(&end, NULL);
             totalInsertion += time_val(&start, &end);
 
@@ -265,8 +280,6 @@ void vetorReverso(int inc, int fim, int stp, int rpt)
             heapSort(vetor, n);
             gettimeofday(&end, NULL);
             totalHeap += time_val(&start, &end);
-
-           
 
             delete[] vetor; // Libera a memória alocada para o vetor
         }
