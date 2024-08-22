@@ -81,20 +81,24 @@ void bubbleSort(int *vetor, int tamanho, bool crescente)
 
 void merge(int *vetor, int left, int mid, int right, bool crescente)
 {
-    int i, j, k;
     int n1 = mid - left + 1;
     int n2 = right - mid;
 
-    int L[n1], R[n2];
+    // Alocando dinamicamente as sub-arrays
+    int *L = new int[n1];
+    int *R = new int[n2];
 
-    for (i = 0; i < n1; i++)
+    // Copiando dados para os arrays temporários L[] e R[]
+    for (int i = 0; i < n1; i++)
         L[i] = vetor[left + i];
-    for (j = 0; j < n2; j++)
+    for (int j = 0; j < n2; j++)
         R[j] = vetor[mid + 1 + j];
 
-    i = 0;
-    j = 0;
-    k = left;
+    int i = 0; // Índice inicial do primeiro subarray
+    int j = 0; // Índice inicial do segundo subarray
+    int k = left; // Índice inicial do subarray mesclado
+
+    // Mesclando os arrays temporários de volta para o vetor[]
     while (i < n1 && j < n2)
     {
         if (crescente)
@@ -126,6 +130,7 @@ void merge(int *vetor, int left, int mid, int right, bool crescente)
         k++;
     }
 
+    // Copiando os elementos restantes de L[], se houver
     while (i < n1)
     {
         vetor[k] = L[i];
@@ -133,12 +138,17 @@ void merge(int *vetor, int left, int mid, int right, bool crescente)
         k++;
     }
 
+    // Copiando os elementos restantes de R[], se houver
     while (j < n2)
     {
         vetor[k] = R[j];
         j++;
         k++;
     }
+
+    // Liberando a memória alocada dinamicamente
+    delete[] L;
+    delete[] R;
 }
 
 void mergeSort(int *vetor, int left, int right, bool crescente)
@@ -147,12 +157,15 @@ void mergeSort(int *vetor, int left, int right, bool crescente)
     {
         int mid = left + (right - left) / 2;
 
+        // Ordenando recursivamente as metades
         mergeSort(vetor, left, mid, crescente);
         mergeSort(vetor, mid + 1, right, crescente);
 
+        // Mesclando as duas metades ordenadas
         merge(vetor, left, mid, right, crescente);
     }
 }
+
 
 void heapify(int *vetor, int tamanho, int i)
 {
