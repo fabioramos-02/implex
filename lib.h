@@ -11,8 +11,10 @@ float time_val(struct timeval *start, struct timeval *end);
 
 // Gustavo implementar
 void bubbleSort(int *vetor, int tamanho, bool crescente);
-// void countingSort(int *vetor, int tamanho);
-// void quickSort(int *vetor, int inicio, int fim);
+void countingSort(int *vetor, int tamanho, bool crescente);
+
+void quickSort(int *vetor, int inicio, int fim, bool crescente);
+int particionar(int *vetor, int inicio, int fim, bool crescente);
 
 // Fabio implementar
 void insertionSort(int *vetor, int tamanho, bool crescente);
@@ -24,7 +26,8 @@ void mergeSort(int *vetor, int left, int right, bool crescente);
 void merge(int *vetor, int left, int mid, int right, bool crescente);
 
 // Função para criar vetores aleatórios
-void criarVetorAleatorio(int *vetor, int tamanho);
+int *criarVetorAleatorio(int n);
+int *criarCopiaVetor(int *vetor, int n);
 
 // impementar os 4 conjuntos de dados
 void vetorAleatorio(int inc, int fim, int stp, int rpt);
