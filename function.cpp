@@ -4,6 +4,35 @@
 #include <chrono>
 #include <sys/time.h>
 
+//funcao para salvar os dados em um arquivo csv separado por ; 
+/*
+// colocar o cabecalho no arquivo printf("n\tBubble\t\tInsertion\tMerge\t\tHeap\t\tQuick\t\tCounting\n")
+        fprintf(arq, "%d,%f,%f,%f,%f,%f,%f\n",
+                n,
+                totalBubble / rpt,
+                totalInsertion / rpt,
+                totalMerge / rpt,
+                totalHeap / rpt,
+                totalQuick / rpt,
+                totalCounting / rpt);
+*/
+//receber uma cadeia de caracteres com o nome do arquivo
+void salvarDados(int n, float totalBubble, float totalInsertion, float totalMerge, float totalHeap, float totalQuick, float totalCounting, const char *nomeArquivo)
+{
+    FILE *arq;
+    arq = fopen(nomeArquivo, "w");
+    fprintf(arq, "%d;%f;%f;%f;%f;%f;%f\n",
+            n,
+            totalBubble,
+            totalInsertion,
+            totalMerge,
+            totalHeap,
+            totalQuick,
+            totalCounting);
+    fclose(arq);
+}
+
+
 // Função para calcular o tempo decorrido
 float time_val(struct timeval *start, struct timeval *end)
 {
@@ -315,7 +344,6 @@ void countingSort(int *vetor, int tamanho, bool crescente)
     delete[] count;
     delete[] output;
 }
-
 void vetorAleatorio(int inc, int fim, int stp, int rpt)
 {
     // Imprimir rótulo [[RANDOM]]
@@ -323,6 +351,11 @@ void vetorAleatorio(int inc, int fim, int stp, int rpt)
 
     // Imprimir cabeçalhos
     printf("n\tBubble\t\tInsertion\tMerge\t\tHeap\t\tQuick\t\tCounting\n");
+
+    // exportar dados do tempo de execucao dos algoritmos em formato csv
+    // sempre apagando os dados antigos e escrevendo novos
+    
+
 
     for (int n = inc; n <= fim; n += stp)
     {
@@ -384,6 +417,9 @@ void vetorAleatorio(int inc, int fim, int stp, int rpt)
             delete[] vetQuick;
             delete[] vetCounting;
         }
+        
+        //salvar no arquivo csv
+        salvarDados(n, totalBubble / rpt, totalInsertion / rpt, totalMerge / rpt, totalHeap / rpt, totalQuick / rpt, totalCounting / rpt, "vetor_aleatorio.csv");
 
         // Imprimir os resultados
         printf("%d\t%f\t%f\t%f\t%f\t%f\t%f\n",
@@ -418,6 +454,10 @@ void vetorReverso(int inc, int fim, int stp, int rpt)
 
     // Imprimir cabeçalhos
     printf("n\tBubble\t\tInsertion\tMerge\t\tHeap\t\tQuick\t\tCounting\n");
+
+    
+    
+
 
     for (int n = inc; n <= fim; n += stp)
     {
@@ -480,6 +520,8 @@ void vetorReverso(int inc, int fim, int stp, int rpt)
             delete[] vetQuick;
             delete[] vetCounting;
         }
+        //salvar no arquivo csv
+        salvarDados(n, totalBubble / rpt, totalInsertion / rpt, totalMerge / rpt, totalHeap / rpt, totalQuick / rpt, totalCounting / rpt, "vetor_reverso.csv");
 
         // Imprimir os resultados
         printf("%d\t%f\t%f\t%f\t%f\t%f\t%f\n",
@@ -512,6 +554,8 @@ void vetorOrdenado(int inc, int fim, int stp, int rpt)
 
     // Imprimir cabeçalhos
     printf("n\tBubble\t\tInsertion\tMerge\t\tHeap\t\tQuick\t\tCounting\n");
+    // exportar dados do tempo de execucao dos algoritmos em formato csv
+
 
     for (int n = inc; n <= fim; n += stp)
     {
@@ -570,7 +614,7 @@ void vetorOrdenado(int inc, int fim, int stp, int rpt)
             countingSort(vetCounting, n, true);
             gettimeofday(&end, NULL);
             totalCounting += time_val(&start, &end);
-            
+
             delete[] vetor; // Libera a memória alocada para o vetor
             delete[] vetBubble;
             delete[] vetInsertion;
@@ -579,6 +623,9 @@ void vetorOrdenado(int inc, int fim, int stp, int rpt)
             delete[] vetQuick;
             delete[] vetCounting;
         }
+        
+         //salvar no arquivo csv
+        salvarDados(n, totalBubble / rpt, totalInsertion / rpt, totalMerge / rpt, totalHeap / rpt, totalQuick / rpt, totalCounting / rpt, "vetor_ordenado.csv");
 
         // Imprimir os resultados
         printf("%d\t%f\t%f\t%f\t%f\t%f\t%f\n",

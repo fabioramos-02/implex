@@ -2,13 +2,11 @@
 // Autor: Gustavo Florentin, colocar o RGA
 
 
-
-
 // funcao para medir o tempo
+void salvarDados(int n, float totalBubble, float totalInsertion, float totalMerge, float totalHeap, float totalQuick, float totalCounting, const char *nomeArquivo);
 float time_val(struct timeval *start, struct timeval *end);
 
 // implementacao de funções de ordenação
-
 // Gustavo implementar
 void bubbleSort(int *vetor, int tamanho, bool crescente);
 void countingSort(int *vetor, int tamanho, bool crescente);
