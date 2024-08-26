@@ -237,38 +237,45 @@ void heapSort(int *vetor, int tamanho, bool crescente)
     }
 }
 // funcao particionar
-int particionar(int *vetor, int inicio, int fim, bool crescente){
-     int auxiliar;
+int particionar(int *vetor, int inicio, int fim, bool crescente)
+{
+    int auxiliar;
     // definir o pivo como ultimo elemento
     int pivo = vetor[fim];
-    int m = inicio-1;
+    int m = inicio - 1;
 
-    for (int i=inicio; i < fim; i++) {
+    for (int i = inicio; i < fim; i++)
+    {
         // caso o elemento vetor[i] for menor que o pivo,
-        if(crescente){
-            if (vetor[i] <= pivo) {
-                m = m + 1;
-                auxiliar = vetor[m];
-                vetor[m] = vetor[i];
-                vetor[i] = auxiliar;
-            }
-        }else{
-            if (vetor[i] >= pivo) {
+        if (crescente)
+        {
+            if (vetor[i] <= pivo)
+            {
                 m = m + 1;
                 auxiliar = vetor[m];
                 vetor[m] = vetor[i];
                 vetor[i] = auxiliar;
             }
         }
-    } 
+        else
+        {
+            if (vetor[i] >= pivo)
+            {
+                m = m + 1;
+                auxiliar = vetor[m];
+                vetor[m] = vetor[i];
+                vetor[i] = auxiliar;
+            }
+        }
+    }
 
     // colocar o pivo na posicao correta e retornar o valor que
     // é o indice do pivo
-    auxiliar = vetor[m+1];
-    vetor[m+1] = vetor[fim];
+    auxiliar = vetor[m + 1];
+    vetor[m + 1] = vetor[fim];
     vetor[fim] = auxiliar;
 
-    return m+1;
+    return m + 1;
 }
 void quickSort(int *vetor, int inicio, int fim, bool crescente)
 {
@@ -334,6 +341,7 @@ void vetorAleatorio(int inc, int fim, int stp, int rpt)
     fclose(arq);
     // Imprimir cabeçalhos
     printf("n\tBubble\t\tInsertion\tMerge\t\tHeap\t\tQuick\t\tCounting\n");
+    printf("------------------------------------------------------------------------------------------------\n");
 
     // exportar dados do tempo de execucao dos algoritmos em formato csv
     // sempre apagando os dados antigos e escrevendo novos
@@ -414,7 +422,6 @@ void vetorAleatorio(int inc, int fim, int stp, int rpt)
     }
 }
 
-
 void vetorReverso(int inc, int fim, int stp, int rpt)
 {
     printf("\n");
@@ -425,6 +432,7 @@ void vetorReverso(int inc, int fim, int stp, int rpt)
 
     // Imprimir cabeçalhos
     printf("n\tBubble\t\tInsertion\tMerge\t\tHeap\t\tQuick\t\tCounting\n");
+    printf("------------------------------------------------------------------------------------------------\n");
 
     for (int n = inc; n <= fim; n += stp)
     {
@@ -511,6 +519,8 @@ void vetorOrdenado(int inc, int fim, int stp, int rpt)
 
     // Imprimir cabeçalhos
     printf("n\tBubble\t\tInsertion\tMerge\t\tHeap\t\tQuick\t\tCounting\n");
+    printf("------------------------------------------------------------------------------------------------\n");
+
     // exportar dados do tempo de execucao dos algoritmos em formato csv
 
     for (int n = inc; n <= fim; n += stp)
