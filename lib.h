@@ -1,3 +1,8 @@
+#include <chrono>
+#include <sys/time.h>
+#include "stdio.h"
+#include "stdlib.h"
+#include <ctime>
 // Autor: Fabio Ramos, 202319060712
 // Autor: Gustavo Florentin, colocar o RGA
 

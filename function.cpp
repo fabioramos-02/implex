@@ -1,26 +1,9 @@
 #include "lib.h"
-#include "stdio.h"
-#include "stdlib.h"
-#include <chrono>
-#include <sys/time.h>
-
-//funcao para salvar os dados em um arquivo csv separado por ; 
-/*
-// colocar o cabecalho no arquivo printf("n\tBubble\t\tInsertion\tMerge\t\tHeap\t\tQuick\t\tCounting\n")
-        fprintf(arq, "%d,%f,%f,%f,%f,%f,%f\n",
-                n,
-                totalBubble / rpt,
-                totalInsertion / rpt,
-                totalMerge / rpt,
-                totalHeap / rpt,
-                totalQuick / rpt,
-                totalCounting / rpt);
-*/
-//receber uma cadeia de caracteres com o nome do arquivo
+// receber uma cadeia de caracteres com o nome do arquivo
 void salvarDados(int n, float totalBubble, float totalInsertion, float totalMerge, float totalHeap, float totalQuick, float totalCounting, const char *nomeArquivo)
 {
     FILE *arq;
-    arq = fopen(nomeArquivo, "w");
+    arq = fopen(nomeArquivo, "a");
     fprintf(arq, "%d;%f;%f;%f;%f;%f;%f\n",
             n,
             totalBubble,
@@ -31,7 +14,6 @@ void salvarDados(int n, float totalBubble, float totalInsertion, float totalMerg
             totalCounting);
     fclose(arq);
 }
-
 
 // Função para calcular o tempo decorrido
 float time_val(struct timeval *start, struct timeval *end)
@@ -61,7 +43,7 @@ int *criarCopiaVetor(int *vetor, int n)
     return copia;
 }
 
-// Função para ordenar um vetor de inteiros em ordem decrescente ou decrescente
+// Função para ordenar um vetor de inteiros em ordem crescente ou decrescente
 void insertionSort(int *vetor, int tamanho, bool crescente)
 {
     int i, j, chave;
@@ -255,38 +237,38 @@ void heapSort(int *vetor, int tamanho, bool crescente)
     }
 }
 // funcao particionar
-int particionar(int *vetor, int inicio, int fim, bool crescente)
-{
+int particionar(int *vetor, int inicio, int fim, bool crescente){
+     int auxiliar;
+    // definir o pivo como ultimo elemento
     int pivo = vetor[fim];
-    int i = (inicio - 1);
+    int m = inicio-1;
 
-    for (int j = inicio; j <= fim - 1; j++)
-    {
-        if (crescente)
-        {
-            if (vetor[j] < pivo)
-            {
-                i++;
-                int temp = vetor[i];
-                vetor[i] = vetor[j];
-                vetor[j] = temp;
+    for (int i=inicio; i < fim; i++) {
+        // caso o elemento vetor[i] for menor que o pivo,
+        if(crescente){
+            if (vetor[i] <= pivo) {
+                m = m + 1;
+                auxiliar = vetor[m];
+                vetor[m] = vetor[i];
+                vetor[i] = auxiliar;
+            }
+        }else{
+            if (vetor[i] >= pivo) {
+                m = m + 1;
+                auxiliar = vetor[m];
+                vetor[m] = vetor[i];
+                vetor[i] = auxiliar;
             }
         }
-        else
-        {
-            if (vetor[j] > pivo)
-            {
-                i++;
-                int temp = vetor[i];
-                vetor[i] = vetor[j];
-                vetor[j] = temp;
-            }
-        }
-    }
-    int temp = vetor[i + 1];
-    vetor[i + 1] = vetor[fim];
-    vetor[fim] = temp;
-    return (i + 1);
+    } 
+
+    // colocar o pivo na posicao correta e retornar o valor que
+    // é o indice do pivo
+    auxiliar = vetor[m+1];
+    vetor[m+1] = vetor[fim];
+    vetor[fim] = auxiliar;
+
+    return m+1;
 }
 void quickSort(int *vetor, int inicio, int fim, bool crescente)
 {
@@ -348,14 +330,13 @@ void vetorAleatorio(int inc, int fim, int stp, int rpt)
 {
     // Imprimir rótulo [[RANDOM]]
     printf("[[RANDOM]]\n");
-
+    FILE *arq = fopen("vetor_aleatorio.csv", "w");
+    fclose(arq);
     // Imprimir cabeçalhos
     printf("n\tBubble\t\tInsertion\tMerge\t\tHeap\t\tQuick\t\tCounting\n");
 
     // exportar dados do tempo de execucao dos algoritmos em formato csv
     // sempre apagando os dados antigos e escrevendo novos
-    
-
 
     for (int n = inc; n <= fim; n += stp)
     {
@@ -417,8 +398,8 @@ void vetorAleatorio(int inc, int fim, int stp, int rpt)
             delete[] vetQuick;
             delete[] vetCounting;
         }
-        
-        //salvar no arquivo csv
+
+        // salvar no arquivo csv
         salvarDados(n, totalBubble / rpt, totalInsertion / rpt, totalMerge / rpt, totalHeap / rpt, totalQuick / rpt, totalCounting / rpt, "vetor_aleatorio.csv");
 
         // Imprimir os resultados
@@ -433,31 +414,17 @@ void vetorAleatorio(int inc, int fim, int stp, int rpt)
     }
 }
 
-/*Vetor reverso: cada conjunto de entrada A deve conter números inteiros não negativos escolhidos (pseudo)aleatoriamente e arranjados em ordem decrescente. Um tal conjunto de
-números A deve ter n números. Os valores de n variam, para cada conjunto construído, de
-acordo com os parâmetros inc (valor inicial), fim (valor final) e stp (intervalo entre dois
-tamanhos), assim como descrito no caso anterior (vetor aleatório).
-Para cada caso de teste, você deve executar os seis algoritmos mencionados na seção 1 para
-ordenar esse conjunto A de n números inteiros. Neste caso, não é necessário repetir a execução dos algoritmos, isto é, cada caso de teste é executado uma única vez, obtendo então
-os tempos medidos.
-A saída deste experimento consiste de uma primeira linha contendo o rótulo [[REVERSE]],
-especificando o conjunto de dados sendo usado, uma segunda linha contendo os rótulos da
-quantidade de elementos n e a identificação de cada um dos algoritmos. Cada linha a seguir
-contém o valor da quantidade de elementos n de um caso de teste e os tempos gastos da
-execução de cada algoritmo.
-*/
+
 void vetorReverso(int inc, int fim, int stp, int rpt)
 {
     printf("\n");
     // Imprimir rótulo [[REVERSE]]
     printf("[[REVERSE]]\n");
+    FILE *arq = fopen("vetor_reverso.csv", "w");
+    fclose(arq);
 
     // Imprimir cabeçalhos
     printf("n\tBubble\t\tInsertion\tMerge\t\tHeap\t\tQuick\t\tCounting\n");
-
-    
-    
-
 
     for (int n = inc; n <= fim; n += stp)
     {
@@ -520,7 +487,7 @@ void vetorReverso(int inc, int fim, int stp, int rpt)
             delete[] vetQuick;
             delete[] vetCounting;
         }
-        //salvar no arquivo csv
+        // salvar no arquivo csv
         salvarDados(n, totalBubble / rpt, totalInsertion / rpt, totalMerge / rpt, totalHeap / rpt, totalQuick / rpt, totalCounting / rpt, "vetor_reverso.csv");
 
         // Imprimir os resultados
@@ -534,28 +501,17 @@ void vetorReverso(int inc, int fim, int stp, int rpt)
                totalCounting / rpt);
     }
 }
-// Vetor ordenado: cada conjunto de entrada A deve conter números inteiros não negativos
-// escolhidos (pseudo)aleatoriamente e arranjados em ordem crescente. Um tal conjunto de
-// números A deve ter n números. Os valores de n variam, para cada conjunto construído, de
-// acordo com os parâmetros inc (valor inicial), fim (valor final) e stp (intervalo entre dois
-// tamanhos), assim como descrito nos dois casos anteriores.
-// Para cada caso de teste, você deve executar os seis algoritmos mencionados na seção 1 para
-// ordenar esse conjunto A de n números inteiros. Neste caso, não é necessário repetir a execução dos algoritmos, isto é, cada caso de teste é executado uma única vez, obtendo então
-// os tempos medidos.
-// A saída deste experimento consiste de uma primeira linha contendo um rótulo [[SORTED]],
-// especificando o conjunto de dados sendo usado, uma segunda linha contendo os rótulos da
-// quantidade de elementos n e a identificação de cada um dos algoritmos. Cada linha a seguir
-// contém o valor da quantidade de elementos n de um caso de teste e os tempos gastos da
-// execução de cada algoritmo.
+
 void vetorOrdenado(int inc, int fim, int stp, int rpt)
 {
     // Imprimir rótulo [[SORTED]]
     printf("[[SORTED]]\n");
+    FILE *arq = fopen("vetor_ordenado.csv", "w");
+    fclose(arq);
 
     // Imprimir cabeçalhos
     printf("n\tBubble\t\tInsertion\tMerge\t\tHeap\t\tQuick\t\tCounting\n");
     // exportar dados do tempo de execucao dos algoritmos em formato csv
-
 
     for (int n = inc; n <= fim; n += stp)
     {
@@ -623,8 +579,8 @@ void vetorOrdenado(int inc, int fim, int stp, int rpt)
             delete[] vetQuick;
             delete[] vetCounting;
         }
-        
-         //salvar no arquivo csv
+
+        // salvar no arquivo csv
         salvarDados(n, totalBubble / rpt, totalInsertion / rpt, totalMerge / rpt, totalHeap / rpt, totalQuick / rpt, totalCounting / rpt, "vetor_ordenado.csv");
 
         // Imprimir os resultados
