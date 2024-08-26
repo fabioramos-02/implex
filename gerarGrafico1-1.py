@@ -15,17 +15,21 @@ with open('vetor_aleatorio.csv', 'r') as arquivo_csv:
 
 # Separando os dados
 n = [row[0] for row in dados]
-bubble = [row[1] for row in dados]
-insertion = [row[2] for row in dados]
+merge = [row[3] for row in dados]
+heap = [row[4] for row in dados]
+quick = [row[5] for row in dados]
+counting = [row[6] for row in dados]
 
 # Criando o gráfico
 plt.figure(figsize=(10, 6))
-plt.plot(n, bubble, 'm-', marker='P', label='Bubble Sort')  # Usando a cor e marcador especificado
-plt.plot(n, insertion, 'c-', marker='X', label='Insertion Sort')  # Usando a cor e marcador especificado
+plt.plot(n, merge, 'm-', marker='P', label='Merge Sort')  # Usando a cor e marcador especificado
+plt.plot(n, heap, 'c-', marker='X', label='Heap Sort')  # Usando a cor e marcador especificado
+plt.plot(n, quick, 'y-', marker='D', label='Quick Sort')  # Usando a cor e marcador especificado
+plt.plot(n, counting, 'g-', marker='o', label='Counting Sort')  # Usando a cor e marcador especificado
 
 plt.xlabel('n (Tamanho do vetor)')
 plt.ylabel('Tempo (segundos)')
-plt.title('Comparação dos Tempos de Execução: Bubble Sort vs Insertion Sort no conjunto Aleatório')
+plt.title('Comparação dos Tempos de Execução: Conjunto Aleatório')
 plt.legend()
 plt.grid(True)
 plt.show()

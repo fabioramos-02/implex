@@ -1,5 +1,5 @@
 #include "lib.h"
-// receber uma cadeia de caracteres com o nome do arquivo
+
 void salvarDados(int n, float totalBubble, float totalInsertion, float totalMerge, float totalHeap, float totalQuick, float totalCounting, const char *nomeArquivo)
 {
     FILE *arq;
@@ -424,9 +424,8 @@ void vetorAleatorio(int inc, int fim, int stp, int rpt)
 
 void vetorReverso(int inc, int fim, int stp, int rpt)
 {
-    printf("\n");
     // Imprimir rótulo [[REVERSE]]
-    printf("[[REVERSE]]\n");
+    printf("\n[[REVERSE]]\n");
     FILE *arq = fopen("vetor_reverso.csv", "w");
     fclose(arq);
 
@@ -513,7 +512,7 @@ void vetorReverso(int inc, int fim, int stp, int rpt)
 void vetorOrdenado(int inc, int fim, int stp, int rpt)
 {
     // Imprimir rótulo [[SORTED]]
-    printf("[[SORTED]]\n");
+    printf("\n[[SORTED]]\n");
     FILE *arq = fopen("vetor_ordenado.csv", "w");
     fclose(arq);
 
