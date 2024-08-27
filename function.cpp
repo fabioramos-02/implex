@@ -439,6 +439,7 @@ void vetorReverso(int inc, int fim, int stp, int rpt)
         for (int i = 0; i < rpt; i++)
         {
             std::vector<int> vetor = criarVetorAleatorio(n);
+            countingSort(vetor.data(), n, false);
             int *vetBubble = criarCopiaVetor(vetor);
             int *vetInsertion = criarCopiaVetor(vetor);
             int *vetMerge = criarCopiaVetor(vetor);
@@ -450,37 +451,37 @@ void vetorReverso(int inc, int fim, int stp, int rpt)
 
             // // Medir o tempo do BubbleSort
             gettimeofday(&start, NULL);
-            bubbleSort(vetBubble, n, false);
+            bubbleSort(vetBubble, n, true);
             gettimeofday(&end, NULL);
             totalBubble += time_val(&start, &end);
 
             // Medir o tempo do insertionSort
             gettimeofday(&start, NULL);
-            insertionSort(vetInsertion, n, false);
+            insertionSort(vetInsertion, n, true);
             gettimeofday(&end, NULL);
             totalInsertion += time_val(&start, &end);
 
             // // Medir o tempo do MergeSort
             gettimeofday(&start, NULL);
-            mergeSort(vetMerge, 0, n - 1, false);
+            mergeSort(vetMerge, 0, n - 1, true);
             gettimeofday(&end, NULL);
             totalMerge += time_val(&start, &end);
 
             // // Medir o tempo do HeapSort
             gettimeofday(&start, NULL);
-            heapSort(vetHeap, n, false);
+            heapSort(vetHeap, n, true);
             gettimeofday(&end, NULL);
             totalHeap += time_val(&start, &end);
 
             // // Medir o tempo do QuickSort
             gettimeofday(&start, NULL);
-            quickSort(vetQuick, 0, n - 1, false);
+            quickSort(vetQuick, 0, n - 1, true);
             gettimeofday(&end, NULL);
             totalQuick += time_val(&start, &end);
 
             // // Medir o tempo do CountingSort
             gettimeofday(&start, NULL);
-            countingSort(vetCounting, n, false);
+            countingSort(vetCounting, n, true);
             gettimeofday(&end, NULL);
             totalCounting += time_val(&start, &end);
 
@@ -526,6 +527,7 @@ void vetorOrdenado(int inc, int fim, int stp, int rpt)
         for (int i = 0; i < rpt; i++)
         {
             std::vector<int> vetor = criarVetorAleatorio(n);
+            countingSort(vetor.data(), n, true);
             int *vetBubble = criarCopiaVetor(vetor);
             int *vetInsertion = criarCopiaVetor(vetor);
             int *vetMerge = criarCopiaVetor(vetor);
@@ -536,43 +538,36 @@ void vetorOrdenado(int inc, int fim, int stp, int rpt)
             struct timeval start, end; // Estrutura para medir o tempo
 
             // // Medir o tempo do BubbleSort
-            bubbleSort(vetBubble, n, true);
             gettimeofday(&start, NULL);
             bubbleSort(vetBubble, n, true);
             gettimeofday(&end, NULL);
             totalBubble += time_val(&start, &end);
 
             // Medir o tempo do insertionSort
-            insertionSort(vetInsertion, n, true);
             gettimeofday(&start, NULL);
             insertionSort(vetInsertion, n, true);
             gettimeofday(&end, NULL);
             totalInsertion += time_val(&start, &end);
 
             // // Medir o tempo do MergeSort
-            mergeSort(vetMerge, 0, n - 1, true);
             gettimeofday(&start, NULL);
             mergeSort(vetMerge, 0, n - 1, true);
             gettimeofday(&end, NULL);
             totalMerge += time_val(&start, &end);
 
             // // Medir o tempo do HeapSort
-            heapSort(vetHeap, n, true);
             gettimeofday(&start, NULL);
             heapSort(vetHeap, n, true);
             gettimeofday(&end, NULL);
             totalHeap += time_val(&start, &end);
 
             // // Medir o tempo do QuickSort
-            quickSort(vetQuick, 0, n - 1, true);
             gettimeofday(&start, NULL);
-            quickSort(vetQuick, 0, n-1, true);
+            quickSort(vetQuick, 0, n - 1, true);
             gettimeofday(&end, NULL);
             totalQuick += time_val(&start, &end);
 
-
             // // Medir o tempo do CountingSort
-            countingSort(vetCounting, n, true);
             gettimeofday(&start, NULL);
             countingSort(vetCounting, n, true);
             gettimeofday(&end, NULL);
@@ -629,8 +624,6 @@ void vetorQuaseOrdenado(int inc, int fim, int stp, int rpt)
             int *vetHeap = criarCopiaVetor(vetor);
             int *vetQuick = criarCopiaVetor(vetor);
             int *vetCounting = criarCopiaVetor(vetor);
-
-            
 
             struct timeval start, end; // Estrutura para medir o tempo
 
