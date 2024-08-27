@@ -25,7 +25,6 @@ counting = [row[6] for row in dados]
 plt.figure(figsize=(10, 6))
 plt.plot(n, merge, label='Merge Sort')
 plt.plot(n, heap, label='Heap Sort')
-plt.plot(n, quick, label='Quick Sort')
 plt.plot(n, counting, label='Counting Sort')
 
 plt.xlabel('n (Tamanho do vetor)')

@@ -19,7 +19,6 @@ n = [row[0] for row in dados]
 insertion = [row[2] for row in dados]
 merge = [row[3] for row in dados]
 heap = [row[4] for row in dados]
-quick = [row[5] for row in dados]
 counting = [row[6] for row in dados]
 
 # Criando o gráfico
@@ -27,7 +26,6 @@ plt.figure(figsize=(10, 6))
 plt.plot(n, insertion, label='Insertion Sort')
 plt.plot(n, merge, label='Merge Sort')
 plt.plot(n, heap, label='Heap Sort')
-plt.plot(n, quick, label='Quick Sort')
 plt.plot(n, counting, label='Counting Sort')
 
 plt.xlabel('n (Tamanho do vetor)')

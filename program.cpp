@@ -9,7 +9,7 @@ int main()
     
     // vetorAleatorio(inc, fim, stp, rpt);
     // vetorReverso(inc, fim, stp, rpt);
-    vetorOrdenado(inc, fim, stp, rpt);
+    // vetorOrdenado(inc, fim, stp, rpt);
     // vetorQuaseOrdenado(inc, fim, stp, rpt);
     
 
