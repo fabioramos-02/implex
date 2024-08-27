@@ -324,7 +324,7 @@ void countingSort(int *vetor, int tamanho, bool crescente)
 
 void quaseOrdenado(std::vector<int> &vetor, int n)
 {
-    int qtd = n * 0.1;
+    int qtd = n * 0.1; // 10% do vetor
     for (int i = 0; i < qtd; i++)
     {
         int pos1 = rand() % n;
@@ -566,8 +566,10 @@ void vetorOrdenado(int inc, int fim, int stp, int rpt)
             // // Medir o tempo do QuickSort
             quickSort(vetQuick, 0, n - 1, true);
             gettimeofday(&start, NULL);
-            quickSort(vetQuick, 0, n - 1, true);
+            quickSort(vetQuick, 0, n-1, true);
             gettimeofday(&end, NULL);
+            totalQuick += time_val(&start, &end);
+
 
             // // Medir o tempo do CountingSort
             countingSort(vetCounting, n, true);
@@ -619,6 +621,7 @@ void vetorQuaseOrdenado(int inc, int fim, int stp, int rpt)
         for (int i = 0; i < rpt; i++)
         {
             std::vector<int> vetor = criarVetorAleatorio(n);
+            countingSort(vetor.data(), n, true);
             quaseOrdenado(vetor, n);
             int *vetBubble = criarCopiaVetor(vetor);
             int *vetInsertion = criarCopiaVetor(vetor);
@@ -632,41 +635,36 @@ void vetorQuaseOrdenado(int inc, int fim, int stp, int rpt)
             struct timeval start, end; // Estrutura para medir o tempo
 
             // // Medir o tempo do BubbleSort
-            bubbleSort(vetBubble, n, true);
             gettimeofday(&start, NULL);
             bubbleSort(vetBubble, n, true);
             gettimeofday(&end, NULL);
             totalBubble += time_val(&start, &end);
 
             // Medir o tempo do insertionSort
-            insertionSort(vetInsertion, n, true);
             gettimeofday(&start, NULL);
             insertionSort(vetInsertion, n, true);
             gettimeofday(&end, NULL);
             totalInsertion += time_val(&start, &end);
 
             // // Medir o tempo do MergeSort
-            mergeSort(vetMerge, 0, n - 1, true);
             gettimeofday(&start, NULL);
             mergeSort(vetMerge, 0, n - 1, true);
             gettimeofday(&end, NULL);
             totalMerge += time_val(&start, &end);
 
             // // Medir o tempo do HeapSort
-            heapSort(vetHeap, n, true);
             gettimeofday(&start, NULL);
             heapSort(vetHeap, n, true);
             gettimeofday(&end, NULL);
             totalHeap += time_val(&start, &end);
 
             // // Medir o tempo do QuickSort
-            quickSort(vetQuick, 0, n - 1, true);
             gettimeofday(&start, NULL);
             quickSort(vetQuick, 0, n - 1, true);
             gettimeofday(&end, NULL);
+            totalQuick += time_val(&start, &end);
 
             // // Medir o tempo do CountingSort
-            countingSort(vetCounting, n, true);
             gettimeofday(&start, NULL);
             countingSort(vetCounting, n, true);
             gettimeofday(&end, NULL);
