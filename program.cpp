@@ -6,9 +6,11 @@ int main()
     int inc = 1000, fim = 20000, stp = 1000, rpt = 10;
     srand(time(0)); // Inicializa a semente do gerador de números aleatórios
     
-    vetorAleatorio(inc, fim, stp, rpt);
-    vetorReverso(inc, fim, stp, rpt);
-    vetorOrdenado(inc, fim, stp, rpt);
+    // vetorAleatorio(inc, fim, stp, rpt);
+    // vetorReverso(inc, fim, stp, rpt);
+    // vetorOrdenado(inc, fim, stp, rpt);
+    vetorQuaseOrdenado(inc, fim, stp, rpt);
+    
 
     return 0;
 }
