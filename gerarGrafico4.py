@@ -1,14 +1,8 @@
-import matplotlib.pyplot as plt 
+import matplotlib.pyplot as plt
 import csv
 
-# Criar programa que lê os dados do arquivo CSV e gera um gráfico
-# Dados fornecidos pelo arquivo vetor_quaseOrdenado.csv
-# Dados: n, bubble, insertion, merge, heap, quick, counting
-
-
-dados = []
-
 # Ler os dados do arquivo CSV
+dados = []
 with open('vetor_quaseOrdenado.csv', 'r') as arquivo_csv:
     leitor_csv = csv.reader(arquivo_csv, delimiter=';')
     for linha in leitor_csv:
@@ -25,16 +19,29 @@ counting = [row[6] for row in dados]
 
 # Criando o gráfico
 plt.figure(figsize=(10, 6))
-plt.plot(n, bubble, label='Bubble Sort')
-plt.plot(n, insertion, label='Insertion Sort')
-plt.plot(n, merge, label='Merge Sort')
-plt.plot(n, heap, label='Heap Sort')
-plt.plot(n, quick, label='Quick Sort')
-plt.plot(n, counting, label='Counting Sort')
 
-plt.xlabel('n (Tamanho do vetor)')
-plt.ylabel('Tempo (segundos)')
-plt.title('Comparação dos Tempos de Execução dos Algoritmos de Ordenação no Conjunto Quase Ordenado')
-plt.legend()
+# Definindo cores explícitas para cada algoritmo
+plt.plot(n, bubble, color='black', marker='v', label='Bubble Sort')
+plt.plot(n, insertion, color='red', marker='o', label='Insertion Sort')
+plt.plot(n, merge, color='purple', marker='P', label='Merge Sort')
+plt.plot(n, heap, color='green', marker='X', label='Heap Sort')
+plt.plot(n, quick, color='blue', marker='*', label='Quick Sort')
+plt.plot(n, counting, color='orange', marker='s', label='Counting Sort')
+
+# Configurando os eixos
+plt.xlabel('n (Tamanho do vetor)', fontsize=12)
+plt.ylabel('Tempo (s)', fontsize=12)
+
+# Ajustando o título
+plt.title('Tempos de Execução dos Algoritmos de Ordenação no Conjunto Quase Ordenado', fontsize=14, weight='bold')
+
+plt.xticks([2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 18000, 20000])
+
+# Exibindo a grade
 plt.grid(True)
+
+# Exibindo a legenda
+plt.legend()
+
+# Mostrar o gráfico
 plt.show()
