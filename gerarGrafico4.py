@@ -34,7 +34,7 @@ plt.plot(n, counting, label='Counting Sort')
 
 plt.xlabel('n (Tamanho do vetor)')
 plt.ylabel('Tempo (segundos)')
-plt.title('Comparação dos Tempos de Execução dos Algoritmos de Ordenação no Conjunto Reverso')
+plt.title('Comparação dos Tempos de Execução dos Algoritmos de Ordenação no Conjunto Quase Ordenado')
 plt.legend()
 plt.grid(True)
 plt.show()
