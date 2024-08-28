@@ -3,7 +3,7 @@ import csv
 
 # Ler os dados do arquivo CSV
 dados = []
-with open('vetor_aleatorio.csv', 'r') as arquivo_csv:
+with open('../../vetor_aleatorio.csv', 'r') as arquivo_csv:
     leitor_csv = csv.reader(arquivo_csv, delimiter=';')
     for linha in leitor_csv:
         dados.append([float(valor) for valor in linha])
