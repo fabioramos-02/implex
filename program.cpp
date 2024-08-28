@@ -7,9 +7,9 @@ int main()
     srand(time(0)); // Inicializa a semente do gerador de números aleatórios
     
     vetorAleatorio(inc, fim, stp, rpt);
-    // vetorReverso(inc, fim, stp);
-    // vetorOrdenado(inc, fim, stp);
-    // vetorQuaseOrdenado(inc, fim, stp);
+    vetorReverso(inc, fim, stp);
+    vetorOrdenado(inc, fim, stp);
+    vetorQuaseOrdenado(inc, fim, stp);
     
 
     return 0;
