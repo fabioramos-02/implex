@@ -3,7 +3,7 @@ import csv
 
 # Ler os dados do arquivo CSV
 dados = []
-with open('../../vetor_ordenado.csv', 'r') as arquivo_csv:
+with open('../../vetor_quaseOrdenado.csv', 'r') as arquivo_csv:
     leitor_csv = csv.reader(arquivo_csv, delimiter=';')
     for linha in leitor_csv:
         dados.append([float(valor) for valor in linha])
@@ -11,21 +11,22 @@ with open('../../vetor_ordenado.csv', 'r') as arquivo_csv:
 # Separando os dados
 n = [row[0] for row in dados]
 bubble = [row[1] for row in dados]
-quick = [row[5] for row in dados]
+insertion = [row[2] for row in dados]
 
 # Criando o gráfico
 plt.figure(figsize=(10, 6))
 
 # Definindo cores explícitas para cada algoritmo
 plt.plot(n, bubble, color='black', marker='v', label='Bubble Sort')
-plt.plot(n, quick, color='blue', marker='*', label='Quick Sort')
+plt.plot(n, insertion, color='red', marker='o', label='Insertion Sort')
+
 
 # Configurando os eixos
 plt.xlabel('n (Tamanho do vetor)', fontsize=12)
 plt.ylabel('Tempo (s)', fontsize=12)
 
 # Ajustando o título
-plt.title('Tempos de Execução dos Algoritmos de Ordenação no Conjunto Ordenado', fontsize=14, weight='bold')
+plt.title('Tempos de Execução dos Algoritmos de Ordenação no Conjunto Quase Ordenado', fontsize=14, weight='bold')
 
 # Ajustando os ticks do eixo x
 #variar conforme o parametro int inc = 2000, fim = 30000, stp = 2000, rpt = 10;
