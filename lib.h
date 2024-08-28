@@ -36,6 +36,8 @@ int* criarCopiaVetor(const std::vector<int>& vetor);
 
 // impementar os 4 conjuntos de dados
 void vetorAleatorio(int inc, int fim, int stp, int rpt);
-void vetorReverso(int inc, int fim, int stp, int rpt);
-void vetorOrdenado(int inc, int fim, int stp, int rpt);
-void vetorQuaseOrdenado(int inc, int fim, int stp, int rpt);
+void vetorReverso(int inc, int fim, int stp);
+void vetorOrdenado(int inc, int fim, int stp);
+void vetorQuaseOrdenado(int inc, int fim, int stp);
+
+void imprimir(int n, float timeBubble, float timeInsertion, float timeMerge, float timeHeap, float timeQuick, float timeCounting);
