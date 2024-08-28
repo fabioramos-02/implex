@@ -10,21 +10,16 @@ with open('../../vetor_quaseOrdenado.csv', 'r') as arquivo_csv:
 
 # Separando os dados
 n = [row[0] for row in dados]
+bubble = [row[1] for row in dados]
 insertion = [row[2] for row in dados]
-merge = [row[3] for row in dados]
-heap = [row[4] for row in dados]
-quick = [row[5] for row in dados]
-counting = [row[6] for row in dados]
+
 
 # Criando o gráfico
 plt.figure(figsize=(10, 6))
 
 # Definindo cores explícitas para cada algoritmo
+plt.plot(n, bubble, color='black', marker='v', label='Bubble Sort')
 plt.plot(n, insertion, color='red', marker='o', label='Insertion Sort')
-plt.plot(n, merge, color='purple', marker='P', label='Merge Sort')
-plt.plot(n, heap, color='green', marker='X', label='Heap Sort')
-plt.plot(n, quick, color='blue', marker='*', label='Quick Sort')
-plt.plot(n, counting, color='orange', marker='s', label='Counting Sort')
 
 # Configurando os eixos
 plt.xlabel('n (Tamanho do vetor)', fontsize=12)
