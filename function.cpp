@@ -21,28 +21,31 @@ float time_val(struct timeval *start, struct timeval *end)
     return (end->tv_sec - start->tv_sec) + 1e-6 * (end->tv_usec - start->tv_usec);
 }
 
-
-// Função para gerar um vetor aleatório com valores entre 0 e n²
-std::vector<int> criarVetorAleatorio(int n) {
-    std::vector<int> vec;
-    int maxValue = n * n;  // Valor máximo do intervalo
-
-    std::srand(std::time(0));  // Seed para números aleatórios
-
-    for (int i = 0; i < n; ++i) {
-        vec.push_back(std::rand() % (maxValue + 1));  // Adiciona número aleatório ao vetor
+// funcao que devolve vetor aleatorio para vector
+std::vector<int> criarVetorAleatorio(int n)
+{
+    srand(time(0));  // Seed para números aleatórios
+    std::vector<int> vet(n);
+    for (int i = 0; i < n; i++)
+    {
+        vet[i] = rand() % (n*n)+1 ; //0 a n^2
     }
-
-    return vec;
+    return vet;
 }
 
 // funcao que cria uma copia do vetor
-std::vector<int> criarCopiaVetor(const std::vector<int>& vetor) {
-    return std::vector<int>(vetor);
+int *criarCopiaVetor(const std::vector<int> &vetor)
+{
+    int n = vetor.size();
+    int *copia = new int[n];
+    for (int i = 0; i < n; i++)
+    {
+        copia[i] = vetor[i];
+    }
+    return copia;
 }
 
-
-// Função para ordenar   um vetor de inteiros em ordem crescente ou decrescente
+// Função para ordenar um vetor de inteiros em ordem crescente ou decrescente
 void insertionSort(int *vetor, int tamanho, bool crescente)
 {
     int i, j, chave;
