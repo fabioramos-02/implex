@@ -22,10 +22,10 @@ float time_val(struct timeval *start, struct timeval *end)
 }
 
 // funcao que devolve vetor aleatorio para vector
-std::vector<int> criarVetorAleatorio(int n)
+int *criarVetorAleatorio(int n)
 {
     srand(time(0));  // Seed para números aleatórios
-    std::vector<int> vet(n);
+    int *vet = new int[n];
     for (int i = 0; i < n; i++)
     {
         vet[i] = rand() % (n*n)+1 ; //0 a n^2
@@ -34,13 +34,13 @@ std::vector<int> criarVetorAleatorio(int n)
 }
 
 // funcao que cria uma copia do vetor
-int *criarCopiaVetor(const std::vector<int> &vetor)
+int *criarCopiaVetor(int *vet, int n)
 {
-    int n = vetor.size();
+
     int *copia = new int[n];
     for (int i = 0; i < n; i++)
     {
-        copia[i] = vetor[i];
+        copia[i] = vet[i];
     }
     return copia;
 }
@@ -323,7 +323,7 @@ void countingSort(int *vetor, int tamanho, bool crescente)
     delete[] output;
 }
 
-void quaseOrdenado(std::vector<int> &vetor, int n)
+void quaseOrdenado(int  *vetor, int n)
 {
     int qtd = n * 0.1; // 10% do vetor
     for (int i = 0; i < qtd; i++)
@@ -365,13 +365,13 @@ void vetorAleatorio(int inc, int fim, int stp, int rpt)
 
         for (int i = 0; i < rpt; i++)
         {
-            std::vector<int> vetor = criarVetorAleatorio(n);
-            int *vetBubble = criarCopiaVetor(vetor);
-            int *vetInsertion = criarCopiaVetor(vetor);
-            int *vetMerge = criarCopiaVetor(vetor);
-            int *vetHeap = criarCopiaVetor(vetor);
-            int *vetQuick = criarCopiaVetor(vetor);
-            int *vetCounting = criarCopiaVetor(vetor);
+            int *vetor = criarVetorAleatorio(n);
+            int *vetBubble = criarCopiaVetor(vetor ,n);
+            int *vetInsertion = criarCopiaVetor(vetor ,n);
+            int *vetMerge = criarCopiaVetor(vetor ,n);
+            int *vetHeap = criarCopiaVetor(vetor ,n);
+            int *vetQuick = criarCopiaVetor(vetor ,n);
+            int *vetCounting = criarCopiaVetor(vetor ,n);
 
             // Medir o tempo do insertionSort
             struct timeval start, end;
@@ -441,14 +441,14 @@ void vetorReverso(int inc, int fim, int stp)
         float timeBubble = 0, timeInsertion = 0, timeMerge = 0;
         float timeHeap = 0, timeQuick = 0, timeCounting = 0;
 
-        std::vector<int> vetor = criarVetorAleatorio(n);
-        countingSort(vetor.data(), n, false);
-        int *vetBubble = criarCopiaVetor(vetor);
-        int *vetInsertion = criarCopiaVetor(vetor);
-        int *vetMerge = criarCopiaVetor(vetor);
-        int *vetHeap = criarCopiaVetor(vetor);
-        int *vetQuick = criarCopiaVetor(vetor);
-        int *vetCounting = criarCopiaVetor(vetor);
+         int *vetor = criarVetorAleatorio(n);
+        countingSort(vetor, n, false);
+        int *vetBubble = criarCopiaVetor(vetor ,n);
+        int *vetInsertion = criarCopiaVetor(vetor ,n);
+        int *vetMerge = criarCopiaVetor(vetor ,n);
+        int *vetHeap = criarCopiaVetor(vetor ,n);
+        int *vetQuick = criarCopiaVetor(vetor ,n);
+        int *vetCounting = criarCopiaVetor(vetor ,n);
 
         struct timeval start, end; // Estrutura para medir o tempo
 
@@ -519,14 +519,14 @@ void vetorOrdenado(int inc, int fim, int stp)
         float timeBubble = 0, timeInsertion = 0, timeMerge = 0;
         float timeHeap = 0, timeQuick = 0, timeCounting = 0;
 
-        std::vector<int> vetor = criarVetorAleatorio(n);
-        countingSort(vetor.data(), n, true);
-        int *vetBubble = criarCopiaVetor(vetor);
-        int *vetInsertion = criarCopiaVetor(vetor);
-        int *vetMerge = criarCopiaVetor(vetor);
-        int *vetHeap = criarCopiaVetor(vetor);
-        int *vetQuick = criarCopiaVetor(vetor);
-        int *vetCounting = criarCopiaVetor(vetor);
+         int *vetor = criarVetorAleatorio(n);
+        countingSort(vetor, n, true);
+        int *vetBubble = criarCopiaVetor(vetor ,n);
+        int *vetInsertion = criarCopiaVetor(vetor ,n);
+        int *vetMerge = criarCopiaVetor(vetor ,n);
+        int *vetHeap = criarCopiaVetor(vetor ,n);
+        int *vetQuick = criarCopiaVetor(vetor ,n);
+        int *vetCounting = criarCopiaVetor(vetor ,n);
 
         struct timeval start, end; // Estrutura para medir o tempo
 
@@ -598,15 +598,15 @@ void vetorQuaseOrdenado(int inc, int fim, int stp)
         float timeBubble = 0, timeInsertion = 0, timeMerge = 0;
         float timeHeap = 0, timeQuick = 0, timeCounting = 0;
 
-        std::vector<int> vetor = criarVetorAleatorio(n);
-        countingSort(vetor.data(), n, true);
+         int *vetor = criarVetorAleatorio(n);
+        countingSort(vetor, n, true);
         quaseOrdenado(vetor, n);
-        int *vetBubble = criarCopiaVetor(vetor);
-        int *vetInsertion = criarCopiaVetor(vetor);
-        int *vetMerge = criarCopiaVetor(vetor);
-        int *vetHeap = criarCopiaVetor(vetor);
-        int *vetQuick = criarCopiaVetor(vetor);
-        int *vetCounting = criarCopiaVetor(vetor);
+        int *vetBubble = criarCopiaVetor(vetor ,n);
+        int *vetInsertion = criarCopiaVetor(vetor ,n);
+        int *vetMerge = criarCopiaVetor(vetor ,n);
+        int *vetHeap = criarCopiaVetor(vetor ,n);
+        int *vetQuick = criarCopiaVetor(vetor ,n);
+        int *vetCounting = criarCopiaVetor(vetor ,n);
 
         struct timeval start, end; // Estrutura para medir o tempo
 
