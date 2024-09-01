@@ -24,11 +24,11 @@ float time_val(struct timeval *start, struct timeval *end)
 // funcao que devolve vetor aleatorio para vector
 int *criarVetorAleatorio(int n)
 {
-    srand(time(0));  // Seed para números aleatórios
+    srand(time(0)); // Seed para números aleatórios
     int *vet = new int[n];
     for (int i = 0; i < n; i++)
     {
-        vet[i] = rand() % (n*n)+1 ; //0 a n^2
+        vet[i] = rand() % (n * n); // 0 a n^2
     }
     return vet;
 }
@@ -191,50 +191,57 @@ void mergeSort(int *vetor, int left, int right, bool crescente)
     }
 }
 
+// Função para reorganizar uma parte do vetor em um heap máximo
 void heapify(int *vetor, int tamanho, int i, bool crescente)
 {
-    int maior = i;
-    int esq = 2 * i + 1;
-    int dir = 2 * i + 2;
+    int maiorMenor = i;       // Inicializa maiorMenor como raiz
+    int esquerda = 2 * i + 1; // filho à esquerda = 2*i + 1
+    int direita = 2 * i + 2;  // filho à direita = 2*i + 2
 
+    // Se o filho à esquerda for maior/menor que a raiz
     if (crescente)
     {
-        if (esq < tamanho && vetor[esq] > vetor[maior])
-            maior = esq;
+        if (esquerda < tamanho && vetor[esquerda] > vetor[maiorMenor])
+            maiorMenor = esquerda;
 
-        if (dir < tamanho && vetor[dir] > vetor[maior])
-            maior = dir;
+        // Se o filho à direita for maior/menor que o maior/menor até agora
+        if (direita < tamanho && vetor[direita] > vetor[maiorMenor])
+            maiorMenor = direita;
     }
     else
     {
-        if (esq < tamanho && vetor[esq] < vetor[maior])
-            maior = esq;
+        if (esquerda < tamanho && vetor[esquerda] < vetor[maiorMenor])
+            maiorMenor = esquerda;
 
-        if (dir < tamanho && vetor[dir] < vetor[maior])
-            maior = dir;
+        // Se o filho à direita for maior/menor que o maior/menor até agora
+        if (direita < tamanho && vetor[direita] < vetor[maiorMenor])
+            maiorMenor = direita;
     }
 
-    if (maior != i)
+    // Se o maior/menor não for a raiz
+    if (maiorMenor != i)
     {
-        int temp = vetor[i];
-        vetor[i] = vetor[maior];
-        vetor[maior] = temp;
+        std::swap(vetor[i], vetor[maiorMenor]);
 
-        heapify(vetor, tamanho, maior, crescente);
+        // Recursivamente heapifica a subárvore afetada
+        heapify(vetor, tamanho, maiorMenor, crescente);
     }
 }
 
+// Função principal do HeapSort
 void heapSort(int *vetor, int tamanho, bool crescente)
 {
+    // Constrói o heap (rearranja o vetor)
     for (int i = tamanho / 2 - 1; i >= 0; i--)
         heapify(vetor, tamanho, i, crescente);
 
-    for (int i = tamanho - 1; i > 0; i--)
+    // Extrai um por um os elementos do heap
+    for (int i = tamanho - 1; i >= 0; i--)
     {
-        int temp = vetor[0];
-        vetor[0] = vetor[i];
-        vetor[i] = temp;
+        // Move a raiz atual para o final
+        std::swap(vetor[0], vetor[i]);
 
+        // Chama o heapify na heap reduzida
         heapify(vetor, i, 0, crescente);
     }
 }
@@ -278,52 +285,51 @@ void quickSort(int *vetor, int inicio, int fim, bool crescente)
 
 void countingSort(int *vetor, int tamanho, bool crescente)
 {
-    int maior = vetor[0];
-    for (int i = 1; i < tamanho; i++)
-    {
-        if (vetor[i] > maior)
-            maior = vetor[i];
-    }
+    if (tamanho <= 0)
+        return;
 
-    int *count = new int[maior + 1];
-    int *output = new int[tamanho];
+    // Encontrar o valor máximo no array para determinar o tamanho do vetor de contagem
+    int max_val = *std::max_element(vetor, vetor + tamanho);
 
-    for (int i = 0; i <= maior; i++)
-        count[i] = 0;
+    // Criar um array de contagem inicializado com zero
+    int *count = new int[max_val + 1]{0};
 
+    // Contar a ocorrência de cada elemento
     for (int i = 0; i < tamanho; i++)
         count[vetor[i]]++;
 
-    for (int i = 1; i <= maior; i++)
-        count[i] += count[i - 1];
-
+    // Modificar o array de contagem para armazenar as posições finais de cada elemento
     if (crescente)
     {
-        // Preenche o vetor de saída para ordenação crescente
-        for (int i = tamanho - 1; i >= 0; i--)
-        {
-            output[count[vetor[i]] - 1] = vetor[i];
-            count[vetor[i]]--;
-        }
+        for (int i = 1; i <= max_val; i++)
+            count[i] += count[i - 1];
     }
     else
     {
-        // Preenche o vetor de saída para ordenação decrescente
-        for (int i = 0; i < tamanho; i++)
-        {
-            output[tamanho - count[vetor[i]]] = vetor[i];
-            count[vetor[i]]--;
-        }
+        for (int i = max_val - 1; i >= 0; i--)
+            count[i] += count[i + 1];
     }
 
+    // Criar um array de saída para os elementos ordenados
+    int *output = new int[tamanho];
+
+    // Construir o array de saída
+    for (int i = tamanho - 1; i >= 0; i--)
+    {
+        output[count[vetor[i]] - 1] = vetor[i];
+        count[vetor[i]]--;
+    }
+
+    // Copiar os elementos ordenados de volta para o array original
     for (int i = 0; i < tamanho; i++)
         vetor[i] = output[i];
 
+    // Liberar a memória alocada
     delete[] count;
     delete[] output;
 }
 
-void quaseOrdenado(int  *vetor, int n)
+void quaseOrdenado(int *vetor, int n)
 {
     int qtd = n * 0.1; // 10% do vetor
     for (int i = 0; i < qtd; i++)
@@ -345,6 +351,26 @@ void imprimir(int n, float timeBubble, float timeInsertion, float timeMerge, flo
            timeQuick,
            timeCounting);
 }
+
+float medirTempoOrdenacao(void (*sortFunc)(int *, int, bool), int *vetor, int tamanho, bool crescente)
+{
+    struct timeval start, end;
+    gettimeofday(&start, NULL);
+    sortFunc(vetor, tamanho, crescente);
+    gettimeofday(&end, NULL);
+    return time_val(&start, &end);
+}
+
+void mergeSortWrapper(int *vetor, int tamanho, bool crescente)
+{
+    mergeSort(vetor, 0, tamanho - 1, crescente);
+}
+
+void quickSortWrapper(int *vetor, int tamanho, bool crescente)
+{
+    quickSort(vetor, 0, tamanho - 1, crescente);
+}
+
 void vetorAleatorio(int inc, int fim, int stp, int rpt)
 {
     FILE *arq = fopen("vetor_aleatorio.csv", "w");
@@ -360,69 +386,52 @@ void vetorAleatorio(int inc, int fim, int stp, int rpt)
 
     for (int n = inc; n <= fim; n += stp)
     {
-        float totalBubble = 0, totalInsertion = 0, totalMerge = 0;
-        float totalHeap = 0, totalQuick = 0, totalCounting = 0;
+        float totalTimes[6] = {0};
 
         for (int i = 0; i < rpt; i++)
         {
             int *vetor = criarVetorAleatorio(n);
-            int *vetBubble = criarCopiaVetor(vetor ,n);
-            int *vetInsertion = criarCopiaVetor(vetor ,n);
-            int *vetMerge = criarCopiaVetor(vetor ,n);
-            int *vetHeap = criarCopiaVetor(vetor ,n);
-            int *vetQuick = criarCopiaVetor(vetor ,n);
-            int *vetCounting = criarCopiaVetor(vetor ,n);
-
-            // Medir o tempo do insertionSort
-            struct timeval start, end;
-            gettimeofday(&start, NULL);
-            insertionSort(vetInsertion, n, true);
-            gettimeofday(&end, NULL);
-            totalInsertion += time_val(&start, &end);
+            int *copia;
+            copia = criarCopiaVetor(vetor, n);
 
             // // Medir o tempo do BubbleSort
-            gettimeofday(&start, NULL);
-            bubbleSort(vetBubble, n, true);
-            gettimeofday(&end, NULL);
-            totalBubble += time_val(&start, &end);
+            copia = criarCopiaVetor(vetor, n);
+            totalTimes[0] += medirTempoOrdenacao(bubbleSort, copia, n, true);
+
+            // Medir o tempo do insertionSort
+            copia = criarCopiaVetor(vetor, n);
+            totalTimes[1] += medirTempoOrdenacao(insertionSort, copia, n, true);
 
             // // Medir o tempo do MergeSort
-            gettimeofday(&start, NULL);
-            mergeSort(vetMerge, 0, n - 1, true);
-            gettimeofday(&end, NULL);
-            totalMerge += time_val(&start, &end);
+            copia = criarCopiaVetor(vetor, n);
+            totalTimes[2] += medirTempoOrdenacao(mergeSortWrapper, copia, n, true);
 
             // // Medir o tempo do HeapSort
-            gettimeofday(&start, NULL);
-            heapSort(vetHeap, n, true);
-            gettimeofday(&end, NULL);
-            totalHeap += time_val(&start, &end);
+            copia = criarCopiaVetor(vetor, n);
+            totalTimes[3] += medirTempoOrdenacao(heapSort, copia, n, true);
 
             // // Medir o tempo do QuickSort
-            gettimeofday(&start, NULL);
-            quickSort(vetQuick, 0, n - 1, true);
-            gettimeofday(&end, NULL);
-            totalQuick += time_val(&start, &end);
+            copia = criarCopiaVetor(vetor, n);
+            totalTimes[4] += medirTempoOrdenacao(quickSortWrapper, copia, n, true);
 
             // // Medir o tempo do CountingSort
-            gettimeofday(&start, NULL);
-            countingSort(vetCounting, n, true);
-            gettimeofday(&end, NULL);
-            totalCounting += time_val(&start, &end);
+            copia = criarCopiaVetor(vetor, n);
+            totalTimes[5] += medirTempoOrdenacao(countingSort, copia, n, true);
 
-            delete[] vetBubble;
-            delete[] vetInsertion;
-            delete[] vetMerge;
-            delete[] vetHeap;
-            delete[] vetQuick;
-            delete[] vetCounting;
+            delete[] vetor;
+            delete[] copia;
+        }
+        // calcular a media dos tempos
+        for (int j = 0; j < 6; j++)
+        {
+            totalTimes[j] /= rpt;
         }
 
         // salvar no arquivo csv
-        salvarDados(n, totalBubble / rpt, totalInsertion / rpt, totalMerge / rpt, totalHeap / rpt, totalQuick / rpt, totalCounting / rpt, "vetor_aleatorio.csv");
+        salvarDados(n, totalTimes[0], totalTimes[1], totalTimes[2], totalTimes[3], totalTimes[4], totalTimes[5], "vetor_aleatorio.csv");
 
         // imprimir tupla da tabela
-        imprimir(n, totalBubble / rpt, totalInsertion / rpt, totalMerge / rpt, totalHeap / rpt, totalQuick / rpt, totalCounting / rpt);
+        imprimir(n, totalTimes[0], totalTimes[1], totalTimes[2], totalTimes[3], totalTimes[4], totalTimes[5]);
     }
 }
 
@@ -438,67 +447,38 @@ void vetorReverso(int inc, int fim, int stp)
 
     for (int n = inc; n <= fim; n += stp)
     {
-        float timeBubble = 0, timeInsertion = 0, timeMerge = 0;
-        float timeHeap = 0, timeQuick = 0, timeCounting = 0;
-
-         int *vetor = criarVetorAleatorio(n);
+        int *vetor = criarVetorAleatorio(n);
         countingSort(vetor, n, false);
-        int *vetBubble = criarCopiaVetor(vetor ,n);
-        int *vetInsertion = criarCopiaVetor(vetor ,n);
-        int *vetMerge = criarCopiaVetor(vetor ,n);
-        int *vetHeap = criarCopiaVetor(vetor ,n);
-        int *vetQuick = criarCopiaVetor(vetor ,n);
-        int *vetCounting = criarCopiaVetor(vetor ,n);
+        int *copia;
+        float totalTimes[6] = {0};
 
-        struct timeval start, end; // Estrutura para medir o tempo
+        // Medir o tempo dos algoritmos de ordenação
+        // BubbleSort
+        copia = criarCopiaVetor(vetor, n);
+        totalTimes[0] = medirTempoOrdenacao(bubbleSort, copia, n, true);
+        // InsertionSort
+        copia = criarCopiaVetor(vetor, n);
+        totalTimes[1] = medirTempoOrdenacao(insertionSort, copia, n, true);
+        // MergeSort
+        copia = criarCopiaVetor(vetor, n);
+        totalTimes[2] = medirTempoOrdenacao(mergeSortWrapper, copia, n, true);
+        // HeapSort
+        copia = criarCopiaVetor(vetor, n);
+        totalTimes[3] = medirTempoOrdenacao(heapSort, copia, n, true);
+        // QuickSort
+        copia = criarCopiaVetor(vetor, n);
+        totalTimes[4] = medirTempoOrdenacao(quickSortWrapper, copia, n, true);
+        // CountingSort
+        copia = criarCopiaVetor(vetor, n);
+        totalTimes[5] = medirTempoOrdenacao(countingSort, copia, n, true);
 
-        // // Medir o tempo do BubbleSort
-        gettimeofday(&start, NULL);
-        bubbleSort(vetBubble, n, true);
-        gettimeofday(&end, NULL);
-        timeBubble = time_val(&start, &end);
-
-        // Medir o tempo do insertionSort
-        gettimeofday(&start, NULL);
-        insertionSort(vetInsertion, n, true);
-        gettimeofday(&end, NULL);
-        timeInsertion = time_val(&start, &end);
-
-        // // Medir o tempo do MergeSort
-        gettimeofday(&start, NULL);
-        mergeSort(vetMerge, 0, n - 1, true);
-        gettimeofday(&end, NULL);
-        timeMerge = time_val(&start, &end);
-
-        // // Medir o tempo do HeapSort
-        gettimeofday(&start, NULL);
-        heapSort(vetHeap, n, true);
-        gettimeofday(&end, NULL);
-        timeHeap = time_val(&start, &end);
-
-        // // Medir o tempo do QuickSort
-        gettimeofday(&start, NULL);
-        quickSort(vetQuick, 0, n - 1, true);
-        gettimeofday(&end, NULL);
-        timeQuick = time_val(&start, &end);
-
-        // // Medir o tempo do CountingSort
-        gettimeofday(&start, NULL);
-        countingSort(vetCounting, n, true);
-        gettimeofday(&end, NULL);
-        timeCounting = time_val(&start, &end);
-
-        delete[] vetBubble;
-        delete[] vetInsertion;
-        delete[] vetMerge;
-        delete[] vetHeap;
-        delete[] vetQuick;
-        delete[] vetCounting;
+        delete[] vetor;
+        delete[] copia;
 
         // salvar no arquivo csv
-        salvarDados(n, timeBubble, timeInsertion, timeMerge, timeHeap, timeQuick, timeCounting, "vetor_reverso.csv");
+        salvarDados(n, totalTimes[0], totalTimes[1], totalTimes[2], totalTimes[3], totalTimes[4], totalTimes[5], "vetor_reverso.csv");
 
-        imprimir(n, timeBubble, timeInsertion, timeMerge, timeHeap, timeQuick, timeCounting);
+        imprimir(n, totalTimes[0], totalTimes[1], totalTimes[2], totalTimes[3], totalTimes[4], totalTimes[5]);
     }
 }
 
@@ -516,68 +496,39 @@ void vetorOrdenado(int inc, int fim, int stp)
 
     for (int n = inc; n <= fim; n += stp)
     {
-        float timeBubble = 0, timeInsertion = 0, timeMerge = 0;
-        float timeHeap = 0, timeQuick = 0, timeCounting = 0;
-
-         int *vetor = criarVetorAleatorio(n);
+        int *vetor = criarVetorAleatorio(n);
         countingSort(vetor, n, true);
-        int *vetBubble = criarCopiaVetor(vetor ,n);
-        int *vetInsertion = criarCopiaVetor(vetor ,n);
-        int *vetMerge = criarCopiaVetor(vetor ,n);
-        int *vetHeap = criarCopiaVetor(vetor ,n);
-        int *vetQuick = criarCopiaVetor(vetor ,n);
-        int *vetCounting = criarCopiaVetor(vetor ,n);
+        int *copia;
+        float totalTimes[6] = {0};
 
-        struct timeval start, end; // Estrutura para medir o tempo
+        // Medir o tempo dos algoritmos de ordenação
+        // BubbleSort
+        copia = criarCopiaVetor(vetor, n);
+        totalTimes[0] = medirTempoOrdenacao(bubbleSort, copia, n, true);
+        // InsertionSort
+        copia = criarCopiaVetor(vetor, n);
+        totalTimes[1] = medirTempoOrdenacao(insertionSort, copia, n, true);
+        // MergeSort
+        copia = criarCopiaVetor(vetor, n);
+        totalTimes[2] = medirTempoOrdenacao(mergeSortWrapper, copia, n, true);
+        // HeapSort
+        copia = criarCopiaVetor(vetor, n);
+        totalTimes[3] = medirTempoOrdenacao(heapSort, copia, n, true);
+        // QuickSort
+        copia = criarCopiaVetor(vetor, n);
+        totalTimes[4] = medirTempoOrdenacao(quickSortWrapper, copia, n, true);
+        // CountingSort
+        copia = criarCopiaVetor(vetor, n);
+        totalTimes[5] = medirTempoOrdenacao(countingSort, copia, n, true);
 
-        // // Medir o tempo do BubbleSort
-        gettimeofday(&start, NULL);
-        bubbleSort(vetBubble, n, true);
-        gettimeofday(&end, NULL);
-        timeBubble = time_val(&start, &end);
-
-        // Medir o tempo do insertionSort
-        gettimeofday(&start, NULL);
-        insertionSort(vetInsertion, n, true);
-        gettimeofday(&end, NULL);
-        timeInsertion = time_val(&start, &end);
-
-        // // Medir o tempo do MergeSort
-        gettimeofday(&start, NULL);
-        mergeSort(vetMerge, 0, n - 1, true);
-        gettimeofday(&end, NULL);
-        timeMerge = time_val(&start, &end);
-
-        // // Medir o tempo do HeapSort
-        gettimeofday(&start, NULL);
-        heapSort(vetHeap, n, true);
-        gettimeofday(&end, NULL);
-        timeHeap = time_val(&start, &end);
-
-        // // Medir o tempo do QuickSort
-        gettimeofday(&start, NULL);
-        quickSort(vetQuick, 0, n - 1, true);
-        gettimeofday(&end, NULL);
-        timeQuick = time_val(&start, &end);
-
-        // // Medir o tempo do CountingSort
-        gettimeofday(&start, NULL);
-        countingSort(vetCounting, n, true);
-        gettimeofday(&end, NULL);
-        timeCounting = time_val(&start, &end);
-
-        delete[] vetBubble;
-        delete[] vetInsertion;
-        delete[] vetMerge;
-        delete[] vetHeap;
-        delete[] vetQuick;
-        delete[] vetCounting;
+        delete[] vetor;
+        delete[] copia;
 
         // salvar no arquivo csv
-        salvarDados(n, timeBubble, timeInsertion, timeMerge, timeHeap, timeQuick, timeCounting, "vetor_ordenado.csv");
+        salvarDados(n, totalTimes[0], totalTimes[1], totalTimes[2], totalTimes[3], totalTimes[4], totalTimes[5], "vetor_ordenado.csv");
 
         // imprimir tupla da tabela
-        imprimir(n, timeBubble, timeInsertion, timeMerge, timeHeap, timeQuick, timeCounting);
+        imprimir(n, totalTimes[0], totalTimes[1], totalTimes[2], totalTimes[3], totalTimes[4], totalTimes[5]);
     }
 }
 
@@ -595,68 +546,40 @@ void vetorQuaseOrdenado(int inc, int fim, int stp)
 
     for (int n = inc; n <= fim; n += stp)
     {
-        float timeBubble = 0, timeInsertion = 0, timeMerge = 0;
-        float timeHeap = 0, timeQuick = 0, timeCounting = 0;
-
-         int *vetor = criarVetorAleatorio(n);
+        int *vetor = criarVetorAleatorio(n);
         countingSort(vetor, n, true);
         quaseOrdenado(vetor, n);
-        int *vetBubble = criarCopiaVetor(vetor ,n);
-        int *vetInsertion = criarCopiaVetor(vetor ,n);
-        int *vetMerge = criarCopiaVetor(vetor ,n);
-        int *vetHeap = criarCopiaVetor(vetor ,n);
-        int *vetQuick = criarCopiaVetor(vetor ,n);
-        int *vetCounting = criarCopiaVetor(vetor ,n);
+        int *copia;
+        float totalTimes[6] = {0};
 
-        struct timeval start, end; // Estrutura para medir o tempo
+    
+        // Medir o tempo dos algoritmos de ordenação
+        // BubbleSort
+        copia = criarCopiaVetor(vetor, n);
+        totalTimes[0] = medirTempoOrdenacao(bubbleSort, copia, n, true);
+        // InsertionSort
+        copia = criarCopiaVetor(vetor, n);
+        totalTimes[1] = medirTempoOrdenacao(insertionSort, copia, n, true);
+        // MergeSort
+        copia = criarCopiaVetor(vetor, n);
+        totalTimes[2] = medirTempoOrdenacao(mergeSortWrapper, copia, n, true);
+        // HeapSort
+        copia = criarCopiaVetor(vetor, n);
+        totalTimes[3] = medirTempoOrdenacao(heapSort, copia, n, true);
+        // QuickSort
+        copia = criarCopiaVetor(vetor, n);
+        totalTimes[4] = medirTempoOrdenacao(quickSortWrapper, copia, n, true);
+        // CountingSort
+        copia = criarCopiaVetor(vetor, n);
+        totalTimes[5] = medirTempoOrdenacao(countingSort, copia, n, true);
 
-        // // Medir o tempo do BubbleSort
-        gettimeofday(&start, NULL);
-        bubbleSort(vetBubble, n, true);
-        gettimeofday(&end, NULL);
-        timeBubble = time_val(&start, &end);
-
-        // Medir o tempo do insertionSort
-        gettimeofday(&start, NULL);
-        insertionSort(vetInsertion, n, true);
-        gettimeofday(&end, NULL);
-        timeInsertion = time_val(&start, &end);
-
-        // // Medir o tempo do MergeSort
-        gettimeofday(&start, NULL);
-        mergeSort(vetMerge, 0, n - 1, true);
-        gettimeofday(&end, NULL);
-        timeMerge = time_val(&start, &end);
-
-        // // Medir o tempo do HeapSort
-        gettimeofday(&start, NULL);
-        heapSort(vetHeap, n, true);
-        gettimeofday(&end, NULL);
-        timeHeap = time_val(&start, &end);
-
-        // // Medir o tempo do QuickSort
-        gettimeofday(&start, NULL);
-        quickSort(vetQuick, 0, n - 1, true);
-        gettimeofday(&end, NULL);
-        timeQuick = time_val(&start, &end);
-
-        // // Medir o tempo do CountingSort
-        gettimeofday(&start, NULL);
-        countingSort(vetCounting, n, true);
-        gettimeofday(&end, NULL);
-        timeCounting = time_val(&start, &end);
-
-        delete[] vetBubble;
-        delete[] vetInsertion;
-        delete[] vetMerge;
-        delete[] vetHeap;
-        delete[] vetQuick;
-        delete[] vetCounting;
+        delete[] vetor;
+        delete[] copia;
 
         // salvar no arquivo csv
-        salvarDados(n, timeBubble, timeInsertion, timeMerge, timeHeap, timeQuick, timeCounting, "vetor_quaseOrdenado.csv");
+        salvarDados(n, totalTimes[0], totalTimes[1], totalTimes[2], totalTimes[3], totalTimes[4], totalTimes[5], "vetor_quaseOrdenado.csv");
 
         // imprimir tupla da tabela
-        imprimir(n, timeBubble, timeInsertion, timeMerge, timeHeap, timeQuick, timeCounting);
+        imprimir(n, totalTimes[0], totalTimes[1], totalTimes[2], totalTimes[3], totalTimes[4], totalTimes[5]);
     }
 }
