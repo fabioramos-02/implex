@@ -441,7 +441,7 @@ void vetorReverso(int inc, int fim, int stp)
         float timeBubble = 0, timeInsertion = 0, timeMerge = 0;
         float timeHeap = 0, timeQuick = 0, timeCounting = 0;
 
-         int *vetor = criarVetorAleatorio(n);
+        int *vetor = criarVetorAleatorio(n);
         countingSort(vetor, n, false);
         int *vetBubble = criarCopiaVetor(vetor ,n);
         int *vetInsertion = criarCopiaVetor(vetor ,n);
@@ -519,7 +519,7 @@ void vetorOrdenado(int inc, int fim, int stp)
         float timeBubble = 0, timeInsertion = 0, timeMerge = 0;
         float timeHeap = 0, timeQuick = 0, timeCounting = 0;
 
-         int *vetor = criarVetorAleatorio(n);
+        int *vetor = criarVetorAleatorio(n);
         countingSort(vetor, n, true);
         int *vetBubble = criarCopiaVetor(vetor ,n);
         int *vetInsertion = criarCopiaVetor(vetor ,n);
@@ -598,7 +598,7 @@ void vetorQuaseOrdenado(int inc, int fim, int stp)
         float timeBubble = 0, timeInsertion = 0, timeMerge = 0;
         float timeHeap = 0, timeQuick = 0, timeCounting = 0;
 
-         int *vetor = criarVetorAleatorio(n);
+        int *vetor = criarVetorAleatorio(n);
         countingSort(vetor, n, true);
         quaseOrdenado(vetor, n);
         int *vetBubble = criarCopiaVetor(vetor ,n);
