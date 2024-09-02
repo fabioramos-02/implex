@@ -33,6 +33,28 @@ int *criarVetorAleatorio(int n)
     return vet;
 }
 
+// Função que devolve um vetor em ordem reversa (decrescente) ou ordenado (crescente)
+int *preencherVet(int n, bool crescente)
+{
+    int *vet = new int[n];
+    if (crescente)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            vet[i] = i + 1; // Preenche com 1, 2, 3, ..., n
+        }
+    }
+    else
+    {
+        for (int i = 0; i < n; i++)
+        {
+            vet[i] = n - i; // Preenche com n, n-1, n-2, ..., 1
+        }
+    }
+    return vet;
+}
+
+
 // funcao que cria uma copia do vetor
 int *criarCopiaVetor(int *vet, int n)
 {
@@ -447,7 +469,7 @@ void vetorReverso(int inc, int fim, int stp)
 
     for (int n = inc; n <= fim; n += stp)
     {
-        int *vetor = criarVetorAleatorio(n);
+        int *vetor = preencherVet(n, false);
         countingSort(vetor, n, false);
         int *copia;
         float totalTimes[6] = {0};
@@ -496,7 +518,7 @@ void vetorOrdenado(int inc, int fim, int stp)
 
     for (int n = inc; n <= fim; n += stp)
     {
-        int *vetor = criarVetorAleatorio(n);
+        int *vetor = preencherVet(n, true);
         countingSort(vetor, n, true);
         int *copia;
         float totalTimes[6] = {0};
