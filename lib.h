@@ -45,3 +45,4 @@ void vetorOrdenado(int inc, int fim, int stp);
 void vetorQuaseOrdenado(int inc, int fim, int stp);
 
 void imprimir(int n, float timeBubble, float timeInsertion, float timeMerge, float timeHeap, float timeQuick, float timeCounting);
+int *preencherVet(int n, bool crescente);
