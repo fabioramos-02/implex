@@ -5,7 +5,7 @@
 #include <ctime>
 #include <algorithm>
 // Autor: Fabio Ramos, 202319060712
-// Autor: Gustavo Florentin, colocar o RGA
+// Autor: Gustavo Florentin, 202319060232
 
 
 // funcao para medir o tempo
@@ -13,7 +13,6 @@ void salvarDados(int n, float totalBubble, float totalInsertion, float totalMerg
 float time_val(struct timeval *start, struct timeval *end);
 float medirTempoOrdenacao(void (*sortFunc)(int*, int, bool), int *vetor, int tamanho, bool crescente);
 
-// implementacao de funções de ordenação
 // Gustavo implementar
 void bubbleSort(int *vetor, int tamanho, bool crescente);
 void countingSort(int *vetor, int tamanho, bool crescente);

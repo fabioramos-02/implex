@@ -447,12 +447,6 @@ void vetorReverso(int inc, int fim, int stp)
 
     for (int n = inc; n <= fim; n += stp)
     {
-<<<<<<< HEAD
-=======
-        float timeBubble = 0, timeInsertion = 0, timeMerge = 0;
-        float timeHeap = 0, timeQuick = 0, timeCounting = 0;
-
->>>>>>> a2648bca8a7295aace7c3e9b5bf3d7d466d2b15d
         int *vetor = criarVetorAleatorio(n);
         countingSort(vetor, n, false);
         int *copia;
@@ -502,12 +496,6 @@ void vetorOrdenado(int inc, int fim, int stp)
 
     for (int n = inc; n <= fim; n += stp)
     {
-<<<<<<< HEAD
-=======
-        float timeBubble = 0, timeInsertion = 0, timeMerge = 0;
-        float timeHeap = 0, timeQuick = 0, timeCounting = 0;
-
->>>>>>> a2648bca8a7295aace7c3e9b5bf3d7d466d2b15d
         int *vetor = criarVetorAleatorio(n);
         countingSort(vetor, n, true);
         int *copia;
@@ -558,12 +546,6 @@ void vetorQuaseOrdenado(int inc, int fim, int stp)
 
     for (int n = inc; n <= fim; n += stp)
     {
-<<<<<<< HEAD
-=======
-        float timeBubble = 0, timeInsertion = 0, timeMerge = 0;
-        float timeHeap = 0, timeQuick = 0, timeCounting = 0;
-
->>>>>>> a2648bca8a7295aace7c3e9b5bf3d7d466d2b15d
         int *vetor = criarVetorAleatorio(n);
         countingSort(vetor, n, true);
         quaseOrdenado(vetor, n);
