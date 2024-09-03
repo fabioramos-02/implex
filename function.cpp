@@ -21,17 +21,16 @@ float time_val(struct timeval *start, struct timeval *end)
     return (end->tv_sec - start->tv_sec) + 1e-6 * (end->tv_usec - start->tv_usec);
 }
 
-// funcao que devolve vetor aleatorio para vector
-int *criarVetorAleatorio(int n)
-{
-    srand(time(0)); // Seed para números aleatórios
+// funcao que devolve vetor aleatorio para vector que varia de 0  a n²
+int *criarVetorAleatorio(int n){
     int *vet = new int[n];
     for (int i = 0; i < n; i++)
     {
-        vet[i] = rand() % (n * n); // 0 a n^2
+        vet[i] = rand() % (n * n);
     }
     return vet;
 }
+
 
 // Função que devolve um vetor em ordem reversa (decrescente) ou ordenado (crescente)
 int *preencherVet(int n, bool crescente)
