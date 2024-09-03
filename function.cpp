@@ -414,7 +414,6 @@ void vetorAleatorio(int inc, int fim, int stp, int rpt)
         {
             int *vetor = criarVetorAleatorio(n);
             int *copia;
-            copia = criarCopiaVetor(vetor, n);
 
             // // Medir o tempo do BubbleSort
             copia = criarCopiaVetor(vetor, n);
