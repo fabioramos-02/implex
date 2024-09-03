@@ -15,11 +15,6 @@ void salvarDados(int n, float totalBubble, float totalInsertion, float totalMerg
     fclose(arq);
 }
 
-// Função para calcular o tempo decorrido
-float time_val(struct timeval *start, struct timeval *end)
-{
-    return (end->tv_sec - start->tv_sec) + 1e-6 * (end->tv_usec - start->tv_usec);
-}
 
 // funcao que devolve vetor aleatorio para vector que varia de 0  a n²
 int *criarVetorAleatorio(int n){
@@ -279,11 +274,15 @@ void imprimir(int n, float timeBubble, float timeInsertion, float timeMerge, flo
 
 float medirTempoOrdenacao(void (*sortFunc)(int *, int), int *vetor, int tamanho)
 {
-    struct timeval start, end;
-    gettimeofday(&start, NULL);
+    auto start = std::chrono::high_resolution_clock::now();
     sortFunc(vetor, tamanho);
-    gettimeofday(&end, NULL);
-    return time_val(&start, &end);
+    auto end = std::chrono::high_resolution_clock::now();
+    
+    // Capturando a duração em microsegundos
+    std::chrono::microseconds duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+
+    // Retornando a duração como float, dividindo por 1e6 para converter em segundos se necessário
+    return duration.count(); // Retorna o tempo em microsegundos
 }
 
 void mergeSortWrapper(int *vetor, int tamanho)

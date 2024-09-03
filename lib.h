@@ -2,7 +2,7 @@
 #include <sys/time.h>
 #include "stdio.h"
 #include "stdlib.h"
-#include <ctime>
+#include <chrono>
 #include <algorithm>
 // Autor: Fabio Ramos, 202319060712
 // Autor: Gustavo Florentin, 202319060232
@@ -10,7 +10,6 @@
 
 // funcao para medir o tempo
 void salvarDados(int n, float totalBubble, float totalInsertion, float totalMerge, float totalHeap, float totalQuick, float totalCounting, const char *nomeArquivo);
-float time_val(struct timeval *start, struct timeval *end);
 float medirTempoOrdenacao(void (*sortFunc)(int *, int), int *vetor, int tamanho);
 
 // Gustavo implementar
