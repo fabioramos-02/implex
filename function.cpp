@@ -67,116 +67,69 @@ int *criarCopiaVetor(int *vet, int n)
 }
 
 // Função para ordenar um vetor de inteiros em ordem crescente ou decrescente
-void insertionSort(int *vetor, int tamanho, bool crescente)
-{
-    int i, j, chave;
-    for (i = 1; i < tamanho; i++)
+void insertionSort(int *vetor, int tamanho){
+    int chave, j;
+    for (int i = 1; i < tamanho; i++)
     {
         chave = vetor[i];
         j = i - 1;
 
-        if (crescente)
+        while (j >= 0 && vetor[j] > chave)
         {
-            while (j >= 0 && vetor[j] > chave)
-            {
-                vetor[j + 1] = vetor[j];
-                j = j - 1;
-            }
+            vetor[j + 1] = vetor[j];
+            j = j - 1;
         }
-        else
-        {
-            while (j >= 0 && vetor[j] < chave)
-            {
-                vetor[j + 1] = vetor[j];
-                j = j - 1;
-            }
-        }
-
         vetor[j + 1] = chave;
     }
 }
 
-void bubbleSort(int *vetor, int tamanho, bool crescente)
-{
-    int i, j, aux;
-    for (i = 0; i < tamanho - 1; i++)
+void bubbleSort(int *vetor, int tamanho){
+    for (int i = 0; i < tamanho - 1; i++)
     {
-        for (j = 0; j < tamanho - i - 1; j++)
+        for (int j = 0; j < tamanho - i - 1; j++)
         {
-            if (crescente)
+            if (vetor[j] > vetor[j + 1])
             {
-                if (vetor[j] > vetor[j + 1])
-                {
-                    aux = vetor[j];
-                    vetor[j] = vetor[j + 1];
-                    vetor[j + 1] = aux;
-                }
-            }
-            else
-            {
-                if (vetor[j] < vetor[j + 1])
-                {
-                    aux = vetor[j];
-                    vetor[j] = vetor[j + 1];
-                    vetor[j + 1] = aux;
-                }
+                std::swap(vetor[j], vetor[j + 1]);
             }
         }
     }
 }
 
-void merge(int *vetor, int left, int mid, int right, bool crescente)
-{
+void merge(int *vetor, int left, int mid, int right){
+    int i, j, k;
     int n1 = mid - left + 1;
     int n2 = right - mid;
 
-    // Alocando dinamicamente as sub-arrays
-    int *L = new int[n1];
-    int *R = new int[n2];
+    // Vetores temporários
+    int L[n1], R[n2];
 
-    // Copiando dados para os arrays temporários L[] e R[]
-    for (int i = 0; i < n1; i++)
+    // Copia os dados para os vetores temporários L[] e R[]
+    for (i = 0; i < n1; i++)
         L[i] = vetor[left + i];
-    for (int j = 0; j < n2; j++)
+    for (j = 0; j < n2; j++)
         R[j] = vetor[mid + 1 + j];
 
-    int i = 0;    // Índice inicial do primeiro subarray
-    int j = 0;    // Índice inicial do segundo subarray
-    int k = left; // Índice inicial do subarray mesclado
-
-    // Mesclando os arrays temporários de volta para o vetor[]
+    // Merge dos vetores temporários de volta para vetor[left..right]
+    i = 0; // Índice inicial do primeiro subvetor
+    j = 0; // Índice inicial do segundo subvetor
+    k = left; // Índice inicial do subvetor fundido
     while (i < n1 && j < n2)
     {
-        if (crescente)
+        if (L[i] <= R[j])
         {
-            if (L[i] <= R[j])
-            {
-                vetor[k] = L[i];
-                i++;
-            }
-            else
-            {
-                vetor[k] = R[j];
-                j++;
-            }
+            vetor[k] = L[i];
+            i++;
         }
         else
         {
-            if (L[i] >= R[j])
-            {
-                vetor[k] = L[i];
-                i++;
-            }
-            else
-            {
-                vetor[k] = R[j];
-                j++;
-            }
+            vetor[k] = R[j];
+            j++;
         }
         k++;
     }
 
-    // Copiando os elementos restantes de L[], se houver
+    // Copia os elementos restantes de L[], se houver
     while (i < n1)
     {
         vetor[k] = L[i];
@@ -184,170 +137,121 @@ void merge(int *vetor, int left, int mid, int right, bool crescente)
         k++;
     }
 
-    // Copiando os elementos restantes de R[], se houver
+    // Copia os elementos restantes de R[], se houver
     while (j < n2)
     {
         vetor[k] = R[j];
         j++;
         k++;
     }
-
-    // Liberando a memória alocada dinamicamente
-    delete[] L;
-    delete[] R;
 }
 
-void mergeSort(int *vetor, int left, int right, bool crescente)
-{
+void mergeSort(int *vetor, int left, int right){
     if (left < right)
     {
+        // O mesmo que (l+r)/2, mas evita overflow para grandes l e r
         int mid = left + (right - left) / 2;
 
-        // Ordenando recursivamente as metades
-        mergeSort(vetor, left, mid, crescente);
-        mergeSort(vetor, mid + 1, right, crescente);
+        // Ordena a primeira e a segunda metade
+        mergeSort(vetor, left, mid);
+        mergeSort(vetor, mid + 1, right);
 
-        // Mesclando as duas metades ordenadas
-        merge(vetor, left, mid, right, crescente);
+        merge(vetor, left, mid, right);
     }
 }
-
 // Função para reorganizar uma parte do vetor em um heap máximo
-void heapify(int *vetor, int tamanho, int i, bool crescente)
-{
-    int maiorMenor = i;       // Inicializa maiorMenor como raiz
-    int esquerda = 2 * i + 1; // filho à esquerda = 2*i + 1
-    int direita = 2 * i + 2;  // filho à direita = 2*i + 2
+void heapify(int *vetor, int tamanho, int i){
+    int maior = i; // Inicializa o maior como raiz
+    int esq = 2 * i + 1;
+    int dir = 2 * i + 2;
 
-    // Se o filho à esquerda for maior/menor que a raiz
-    if (crescente)
+    // Se o filho esquerdo é maior que a raiz
+    if (esq < tamanho && vetor[esq] > vetor[maior])
+        maior = esq;
+
+    // Se o filho direito é maior que o maior até agora
+    if (dir < tamanho && vetor[dir] > vetor[maior])
+        maior = dir;
+
+    // Se o maior não é a raiz
+    if (maior != i)
     {
-        if (esquerda < tamanho && vetor[esquerda] > vetor[maiorMenor])
-            maiorMenor = esquerda;
+        std::swap(vetor[i], vetor[maior]);
 
-        // Se o filho à direita for maior/menor que o maior/menor até agora
-        if (direita < tamanho && vetor[direita] > vetor[maiorMenor])
-            maiorMenor = direita;
-    }
-    else
-    {
-        if (esquerda < tamanho && vetor[esquerda] < vetor[maiorMenor])
-            maiorMenor = esquerda;
-
-        // Se o filho à direita for maior/menor que o maior/menor até agora
-        if (direita < tamanho && vetor[direita] < vetor[maiorMenor])
-            maiorMenor = direita;
-    }
-
-    // Se o maior/menor não for a raiz
-    if (maiorMenor != i)
-    {
-        std::swap(vetor[i], vetor[maiorMenor]);
-
-        // Recursivamente heapifica a subárvore afetada
-        heapify(vetor, tamanho, maiorMenor, crescente);
+        // Recursivamente heapify a subárvore afetada
+        heapify(vetor, tamanho, maior);
     }
 }
 
 // Função principal do HeapSort
-void heapSort(int *vetor, int tamanho, bool crescente)
-{
-    // Constrói o heap (rearranja o vetor)
+void heapSort(int *vetor, int tamanho){
     for (int i = tamanho / 2 - 1; i >= 0; i--)
-        heapify(vetor, tamanho, i, crescente);
+        heapify(vetor, tamanho, i);
 
     // Extrai um por um os elementos do heap
-    for (int i = tamanho - 1; i >= 0; i--)
+    for (int i = tamanho - 1; i > 0; i--)
     {
         // Move a raiz atual para o final
         std::swap(vetor[0], vetor[i]);
 
         // Chama o heapify na heap reduzida
-        heapify(vetor, i, 0, crescente);
+        heapify(vetor, i, 0);
     }
 }
 // funcao particionar
-int particionar(int *vetor, int inicio, int fim, bool crescente)
-{
+int particionar(int *vetor, int inicio, int fim){
     int pivo = vetor[fim];
-    int m = inicio - 1;
-
-    for (int i = inicio; i < fim; i++)
+    int i = inicio - 1;
+    for (int j = inicio; j < fim; j++)
     {
-        if (crescente)
+        if (vetor[j] < pivo)
         {
-            if (vetor[i] <= pivo)
-            {
-                m++;
-                std::swap(vetor[m], vetor[i]);
-            }
-        }
-        else
-        {
-            if (vetor[i] >= pivo)
-            {
-                m++;
-                std::swap(vetor[m], vetor[i]);
-            }
+            i++;
+            std::swap(vetor[i], vetor[j]);
         }
     }
-    std::swap(vetor[m + 1], vetor[fim]);
-    return m + 1;
+    std::swap(vetor[i + 1], vetor[fim]);
+    return i + 1;
 }
-void quickSort(int *vetor, int inicio, int fim, bool crescente)
+void quickSort(int *vetor, int inicio, int fim)
 {
     if (inicio < fim)
     {
-        int p = particionar(vetor, inicio, fim, crescente);
-        quickSort(vetor, inicio, p - 1, crescente);
-        quickSort(vetor, p + 1, fim, crescente);
+        int p = particionar(vetor, inicio, fim);
+        quickSort(vetor, inicio, p - 1);
+        quickSort(vetor, p + 1, fim);
     }
 }
 
-void countingSort(int *vetor, int tamanho, bool crescente)
-{
-    if (tamanho <= 0)
-        return;
-
-    // Encontrar o valor máximo no array para determinar o tamanho do vetor de contagem
-    int max_val = *std::max_element(vetor, vetor + tamanho);
-
-    // Criar um array de contagem inicializado com zero
-    int *count = new int[max_val + 1]{0};
-
-    // Contar a ocorrência de cada elemento
+void countingSort(int *vetor, int tamanho){
+    int maior = vetor[0];
+    for (int i = 1; i < tamanho; i++)
+    {
+        if (vetor[i] > maior)
+        {
+            maior = vetor[i];
+        }
+    }
+    int *copia = new int[maior + 1];
+    for (int i = 0; i < maior + 1; i++)
+    {
+        copia[i] = 0;
+    }
     for (int i = 0; i < tamanho; i++)
-        count[vetor[i]]++;
-
-    // Modificar o array de contagem para armazenar as posições finais de cada elemento
-    if (crescente)
     {
-        for (int i = 1; i <= max_val; i++)
-            count[i] += count[i - 1];
+        copia[vetor[i]]++;
     }
-    else
+    int j = 0;
+    for (int i = 0; i < maior + 1; i++)
     {
-        for (int i = max_val - 1; i >= 0; i--)
-            count[i] += count[i + 1];
+        while (copia[i] > 0)
+        {
+            vetor[j] = i;
+            j++;
+            copia[i]--;
+        }
     }
-
-    // Criar um array de saída para os elementos ordenados
-    int *output = new int[tamanho];
-
-    // Construir o array de saída
-    for (int i = tamanho - 1; i >= 0; i--)
-    {
-        output[count[vetor[i]] - 1] = vetor[i];
-        count[vetor[i]]--;
-    }
-
-    // Copiar os elementos ordenados de volta para o array original
-    for (int i = 0; i < tamanho; i++)
-        vetor[i] = output[i];
-
-    // Liberar a memória alocada
-    delete[] count;
-    delete[] output;
+    delete[] copia;
 }
 
 void quaseOrdenado(int *vetor, int n)
@@ -373,23 +277,23 @@ void imprimir(int n, float timeBubble, float timeInsertion, float timeMerge, flo
            timeCounting);
 }
 
-float medirTempoOrdenacao(void (*sortFunc)(int *, int, bool), int *vetor, int tamanho, bool crescente)
+float medirTempoOrdenacao(void (*sortFunc)(int *, int), int *vetor, int tamanho)
 {
     struct timeval start, end;
     gettimeofday(&start, NULL);
-    sortFunc(vetor, tamanho, crescente);
+    sortFunc(vetor, tamanho);
     gettimeofday(&end, NULL);
     return time_val(&start, &end);
 }
 
-void mergeSortWrapper(int *vetor, int tamanho, bool crescente)
+void mergeSortWrapper(int *vetor, int tamanho)
 {
-    mergeSort(vetor, 0, tamanho - 1, crescente);
+    mergeSort(vetor, 0, tamanho - 1);
 }
 
-void quickSortWrapper(int *vetor, int tamanho, bool crescente)
+void quickSortWrapper(int *vetor, int tamanho)
 {
-    quickSort(vetor, 0, tamanho - 1, crescente);
+    quickSort(vetor, 0, tamanho - 1);
 }
 
 void vetorAleatorio(int inc, int fim, int stp, int rpt)
@@ -416,27 +320,27 @@ void vetorAleatorio(int inc, int fim, int stp, int rpt)
 
             // // Medir o tempo do BubbleSort
             copia = criarCopiaVetor(vetor, n);
-            totalTimes[0] += medirTempoOrdenacao(bubbleSort, copia, n, true);
+            totalTimes[0] += medirTempoOrdenacao(bubbleSort, copia, n);
 
             // Medir o tempo do insertionSort
             copia = criarCopiaVetor(vetor, n);
-            totalTimes[1] += medirTempoOrdenacao(insertionSort, copia, n, true);
+            totalTimes[1] += medirTempoOrdenacao(insertionSort, copia, n);
 
             // // Medir o tempo do MergeSort
             copia = criarCopiaVetor(vetor, n);
-            totalTimes[2] += medirTempoOrdenacao(mergeSortWrapper, copia, n, true);
+            totalTimes[2] += medirTempoOrdenacao(mergeSortWrapper, copia, n);
 
             // // Medir o tempo do HeapSort
             copia = criarCopiaVetor(vetor, n);
-            totalTimes[3] += medirTempoOrdenacao(heapSort, copia, n, true);
+            totalTimes[3] += medirTempoOrdenacao(heapSort, copia, n);
 
             // // Medir o tempo do QuickSort
             copia = criarCopiaVetor(vetor, n);
-            totalTimes[4] += medirTempoOrdenacao(quickSortWrapper, copia, n, true);
+            totalTimes[4] += medirTempoOrdenacao(quickSortWrapper, copia, n);
 
             // // Medir o tempo do CountingSort
             copia = criarCopiaVetor(vetor, n);
-            totalTimes[5] += medirTempoOrdenacao(countingSort, copia, n, true);
+            totalTimes[5] += medirTempoOrdenacao(countingSort, copia, n);
 
             delete[] vetor;
             delete[] copia;
@@ -468,29 +372,28 @@ void vetorReverso(int inc, int fim, int stp)
     for (int n = inc; n <= fim; n += stp)
     {
         int *vetor = preencherVet(n, false);
-        countingSort(vetor, n, false);
         int *copia;
         float totalTimes[6] = {0};
 
         // Medir o tempo dos algoritmos de ordenação
         // BubbleSort
         copia = criarCopiaVetor(vetor, n);
-        totalTimes[0] = medirTempoOrdenacao(bubbleSort, copia, n, true);
+        totalTimes[0] = medirTempoOrdenacao(bubbleSort, copia, n);
         // InsertionSort
         copia = criarCopiaVetor(vetor, n);
-        totalTimes[1] = medirTempoOrdenacao(insertionSort, copia, n, true);
+        totalTimes[1] = medirTempoOrdenacao(insertionSort, copia, n);
         // MergeSort
         copia = criarCopiaVetor(vetor, n);
-        totalTimes[2] = medirTempoOrdenacao(mergeSortWrapper, copia, n, true);
+        totalTimes[2] = medirTempoOrdenacao(mergeSortWrapper, copia, n);
         // HeapSort
         copia = criarCopiaVetor(vetor, n);
-        totalTimes[3] = medirTempoOrdenacao(heapSort, copia, n, true);
+        totalTimes[3] = medirTempoOrdenacao(heapSort, copia, n);
         // QuickSort
         copia = criarCopiaVetor(vetor, n);
-        totalTimes[4] = medirTempoOrdenacao(quickSortWrapper, copia, n, true);
+        totalTimes[4] = medirTempoOrdenacao(quickSortWrapper, copia, n);
         // CountingSort
         copia = criarCopiaVetor(vetor, n);
-        totalTimes[5] = medirTempoOrdenacao(countingSort, copia, n, true);
+        totalTimes[5] = medirTempoOrdenacao(countingSort, copia, n);
 
         delete[] vetor;
         delete[] copia;
@@ -517,29 +420,28 @@ void vetorOrdenado(int inc, int fim, int stp)
     for (int n = inc; n <= fim; n += stp)
     {
         int *vetor = preencherVet(n, true);
-        countingSort(vetor, n, true);
         int *copia;
         float totalTimes[6] = {0};
 
         // Medir o tempo dos algoritmos de ordenação
         // BubbleSort
         copia = criarCopiaVetor(vetor, n);
-        totalTimes[0] = medirTempoOrdenacao(bubbleSort, copia, n, true);
+        totalTimes[0] = medirTempoOrdenacao(bubbleSort, copia, n);
         // InsertionSort
         copia = criarCopiaVetor(vetor, n);
-        totalTimes[1] = medirTempoOrdenacao(insertionSort, copia, n, true);
+        totalTimes[1] = medirTempoOrdenacao(insertionSort, copia, n);
         // MergeSort
         copia = criarCopiaVetor(vetor, n);
-        totalTimes[2] = medirTempoOrdenacao(mergeSortWrapper, copia, n, true);
+        totalTimes[2] = medirTempoOrdenacao(mergeSortWrapper, copia, n);
         // HeapSort
         copia = criarCopiaVetor(vetor, n);
-        totalTimes[3] = medirTempoOrdenacao(heapSort, copia, n, true);
+        totalTimes[3] = medirTempoOrdenacao(heapSort, copia, n);
         // QuickSort
         copia = criarCopiaVetor(vetor, n);
-        totalTimes[4] = medirTempoOrdenacao(quickSortWrapper, copia, n, true);
+        totalTimes[4] = medirTempoOrdenacao(quickSortWrapper, copia, n);
         // CountingSort
         copia = criarCopiaVetor(vetor, n);
-        totalTimes[5] = medirTempoOrdenacao(countingSort, copia, n, true);
+        totalTimes[5] = medirTempoOrdenacao(countingSort, copia, n);
 
         delete[] vetor;
         delete[] copia;
@@ -567,7 +469,7 @@ void vetorQuaseOrdenado(int inc, int fim, int stp)
     for (int n = inc; n <= fim; n += stp)
     {
         int *vetor = criarVetorAleatorio(n);
-        countingSort(vetor, n, true);
+        countingSort(vetor, n);
         quaseOrdenado(vetor, n);
         int *copia;
         float totalTimes[6] = {0};
@@ -576,22 +478,22 @@ void vetorQuaseOrdenado(int inc, int fim, int stp)
         // Medir o tempo dos algoritmos de ordenação
         // BubbleSort
         copia = criarCopiaVetor(vetor, n);
-        totalTimes[0] = medirTempoOrdenacao(bubbleSort, copia, n, true);
+        totalTimes[0] = medirTempoOrdenacao(bubbleSort, copia, n);
         // InsertionSort
         copia = criarCopiaVetor(vetor, n);
-        totalTimes[1] = medirTempoOrdenacao(insertionSort, copia, n, true);
+        totalTimes[1] = medirTempoOrdenacao(insertionSort, copia, n);
         // MergeSort
         copia = criarCopiaVetor(vetor, n);
-        totalTimes[2] = medirTempoOrdenacao(mergeSortWrapper, copia, n, true);
+        totalTimes[2] = medirTempoOrdenacao(mergeSortWrapper, copia, n);
         // HeapSort
         copia = criarCopiaVetor(vetor, n);
-        totalTimes[3] = medirTempoOrdenacao(heapSort, copia, n, true);
+        totalTimes[3] = medirTempoOrdenacao(heapSort, copia, n);
         // QuickSort
         copia = criarCopiaVetor(vetor, n);
-        totalTimes[4] = medirTempoOrdenacao(quickSortWrapper, copia, n, true);
+        totalTimes[4] = medirTempoOrdenacao(quickSortWrapper, copia, n);
         // CountingSort
         copia = criarCopiaVetor(vetor, n);
-        totalTimes[5] = medirTempoOrdenacao(countingSort, copia, n, true);
+        totalTimes[5] = medirTempoOrdenacao(countingSort, copia, n);
 
         delete[] vetor;
         delete[] copia;

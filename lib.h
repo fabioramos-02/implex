@@ -11,27 +11,27 @@
 // funcao para medir o tempo
 void salvarDados(int n, float totalBubble, float totalInsertion, float totalMerge, float totalHeap, float totalQuick, float totalCounting, const char *nomeArquivo);
 float time_val(struct timeval *start, struct timeval *end);
-float medirTempoOrdenacao(void (*sortFunc)(int*, int, bool), int *vetor, int tamanho, bool crescente);
+float medirTempoOrdenacao(void (*sortFunc)(int *, int), int *vetor, int tamanho);
 
 // Gustavo implementar
-void bubbleSort(int *vetor, int tamanho, bool crescente);
-void countingSort(int *vetor, int tamanho, bool crescente);
+void bubbleSort(int *vetor, int tamanho);
+void countingSort(int *vetor, int tamanho);
 
-void quickSort(int *vetor, int inicio, int fim, bool crescente);
-void quickSortWrapper(int *vetor, int tamanho, bool crescente);
-int particionar(int *vetor, int inicio, int fim, bool crescente);
+void quickSort(int *vetor, int inicio, int fim);
+void quickSortWrapper(int *vetor, int tamanho);
+int particionar(int *vetor, int inicio, int fim);
 
 void quaseOrdenado(int *vetor, int n);
 
 // Fabio implementar
-void insertionSort(int *vetor, int tamanho, bool crescente);
+void insertionSort(int *vetor, int tamanho);
 
-void heapSort(int *vetor, int tamanho, bool crescente);
-void heapify(int *vetor, int tamanho, int i, bool crescente);
+void heapSort(int *vetor, int tamanho);
+void heapify(int *vetor, int tamanho, int i);
 
-void mergeSort(int *vetor, int left, int right, bool crescente);
-void merge(int *vetor, int left, int mid, int right, bool crescente);
-void mergeSortWrapper(int *vetor, int tamanho, bool crescente);
+void mergeSort(int *vetor, int left, int right);
+void merge(int *vetor, int left, int mid, int right);
+void mergeSortWrapper(int *vetor, int tamanho);
 
 
 // Função para criar vetores aleatórios
