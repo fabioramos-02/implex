@@ -1,4 +1,5 @@
 .vscode/*
 .venv/*
 teste.exe
+#ignorar planilhas csv
 *.csv
