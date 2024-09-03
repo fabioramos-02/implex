@@ -277,12 +277,12 @@ float medirTempoOrdenacao(void (*sortFunc)(int *, int), int *vetor, int tamanho)
     auto start = std::chrono::high_resolution_clock::now();
     sortFunc(vetor, tamanho);
     auto end = std::chrono::high_resolution_clock::now();
-    
-    // Capturando a duração em microsegundos
+
+    // Captura o tempo em microsegundos
     std::chrono::microseconds duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-    // Retornando a duração como float, dividindo por 1e6 para converter em segundos se necessário
-    return duration.count(); // Retorna o tempo em microsegundos
+    // Converte para segundos como ponto flutuante
+    return duration.count() / 1e6;
 }
 
 void mergeSortWrapper(int *vetor, int tamanho)
@@ -320,29 +320,40 @@ void vetorAleatorio(int inc, int fim, int stp, int rpt)
             // // Medir o tempo do BubbleSort
             copia = criarCopiaVetor(vetor, n);
             totalTimes[0] += medirTempoOrdenacao(bubbleSort, copia, n);
+            delete[] copia;
+
 
             // Medir o tempo do insertionSort
             copia = criarCopiaVetor(vetor, n);
             totalTimes[1] += medirTempoOrdenacao(insertionSort, copia, n);
+            delete[] copia;
+
 
             // // Medir o tempo do MergeSort
             copia = criarCopiaVetor(vetor, n);
             totalTimes[2] += medirTempoOrdenacao(mergeSortWrapper, copia, n);
+            delete[] copia;
+
 
             // // Medir o tempo do HeapSort
             copia = criarCopiaVetor(vetor, n);
             totalTimes[3] += medirTempoOrdenacao(heapSort, copia, n);
+            delete[] copia;
+
 
             // // Medir o tempo do QuickSort
             copia = criarCopiaVetor(vetor, n);
             totalTimes[4] += medirTempoOrdenacao(quickSortWrapper, copia, n);
+            delete[] copia;
+
 
             // // Medir o tempo do CountingSort
             copia = criarCopiaVetor(vetor, n);
             totalTimes[5] += medirTempoOrdenacao(countingSort, copia, n);
+            delete[] copia;
+
 
             delete[] vetor;
-            delete[] copia;
         }
         // calcular a media dos tempos
         for (int j = 0; j < 6; j++)
@@ -374,22 +385,32 @@ void vetorReverso(int inc, int fim, int stp)
         int *copia;
         float totalTimes[6] = {0};
 
-        // Medir o tempo dos algoritmos de ordenação
+         // Medir o tempo dos algoritmos de ordenação
         // BubbleSort
         copia = criarCopiaVetor(vetor, n);
         totalTimes[0] = medirTempoOrdenacao(bubbleSort, copia, n);
+        delete[] copia;
+
         // InsertionSort
         copia = criarCopiaVetor(vetor, n);
         totalTimes[1] = medirTempoOrdenacao(insertionSort, copia, n);
+        delete[] copia;
+
         // MergeSort
         copia = criarCopiaVetor(vetor, n);
         totalTimes[2] = medirTempoOrdenacao(mergeSortWrapper, copia, n);
+        delete[] copia;
+
         // HeapSort
         copia = criarCopiaVetor(vetor, n);
         totalTimes[3] = medirTempoOrdenacao(heapSort, copia, n);
+        delete[] copia;
+
         // QuickSort
         copia = criarCopiaVetor(vetor, n);
         totalTimes[4] = medirTempoOrdenacao(quickSortWrapper, copia, n);
+        delete[] copia;
+
         // CountingSort
         copia = criarCopiaVetor(vetor, n);
         totalTimes[5] = medirTempoOrdenacao(countingSort, copia, n);
@@ -422,22 +443,32 @@ void vetorOrdenado(int inc, int fim, int stp)
         int *copia;
         float totalTimes[6] = {0};
 
-        // Medir o tempo dos algoritmos de ordenação
+          // Medir o tempo dos algoritmos de ordenação
         // BubbleSort
         copia = criarCopiaVetor(vetor, n);
         totalTimes[0] = medirTempoOrdenacao(bubbleSort, copia, n);
+        delete[] copia;
+
         // InsertionSort
         copia = criarCopiaVetor(vetor, n);
         totalTimes[1] = medirTempoOrdenacao(insertionSort, copia, n);
+        delete[] copia;
+
         // MergeSort
         copia = criarCopiaVetor(vetor, n);
         totalTimes[2] = medirTempoOrdenacao(mergeSortWrapper, copia, n);
+        delete[] copia;
+
         // HeapSort
         copia = criarCopiaVetor(vetor, n);
         totalTimes[3] = medirTempoOrdenacao(heapSort, copia, n);
+        delete[] copia;
+
         // QuickSort
         copia = criarCopiaVetor(vetor, n);
         totalTimes[4] = medirTempoOrdenacao(quickSortWrapper, copia, n);
+        delete[] copia;
+
         // CountingSort
         copia = criarCopiaVetor(vetor, n);
         totalTimes[5] = medirTempoOrdenacao(countingSort, copia, n);
@@ -478,18 +509,28 @@ void vetorQuaseOrdenado(int inc, int fim, int stp)
         // BubbleSort
         copia = criarCopiaVetor(vetor, n);
         totalTimes[0] = medirTempoOrdenacao(bubbleSort, copia, n);
+        delete[] copia;
+
         // InsertionSort
         copia = criarCopiaVetor(vetor, n);
         totalTimes[1] = medirTempoOrdenacao(insertionSort, copia, n);
+        delete[] copia;
+
         // MergeSort
         copia = criarCopiaVetor(vetor, n);
         totalTimes[2] = medirTempoOrdenacao(mergeSortWrapper, copia, n);
+        delete[] copia;
+
         // HeapSort
         copia = criarCopiaVetor(vetor, n);
         totalTimes[3] = medirTempoOrdenacao(heapSort, copia, n);
+        delete[] copia;
+
         // QuickSort
         copia = criarCopiaVetor(vetor, n);
         totalTimes[4] = medirTempoOrdenacao(quickSortWrapper, copia, n);
+        delete[] copia;
+
         // CountingSort
         copia = criarCopiaVetor(vetor, n);
         totalTimes[5] = medirTempoOrdenacao(countingSort, copia, n);
