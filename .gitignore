@@ -1,4 +1,4 @@
 .vscode/*
 .venv/*
 teste.exe
-.csv/*
+*.csv
