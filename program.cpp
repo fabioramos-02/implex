@@ -3,7 +3,7 @@
 // ./teste
 int main()
 {
-    int inc = 1000, fim = 20000, stp = 1000, rpt = 10;
+    int inc = 2000, fim = 30000, stp = 2000, rpt = 10;
     
     vetorAleatorio(inc, fim, stp, rpt);
     vetorReverso(inc, fim, stp);
