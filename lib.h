@@ -2,7 +2,6 @@
 #include <sys/time.h>
 #include "stdio.h"
 #include "stdlib.h"
-#include <chrono>
 #include <algorithm>
 // Autor: Fabio Ramos, 202319060712
 // Autor: Gustavo Florentin, 202319060232
