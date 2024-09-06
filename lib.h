@@ -36,7 +36,7 @@ void mergeSortWrapper(int *vetor, int tamanho);
 int *criarVetorAleatorio(int n);
 int *criarCopiaVetor(int *vet, int n);
 
-// impementar os 4 conjuntos de dados
+// implementar os 4 conjuntos de dados
 void vetorAleatorio(int inc, int fim, int stp, int rpt);
 void vetorReverso(int inc, int fim, int stp);
 void vetorOrdenado(int inc, int fim, int stp);
